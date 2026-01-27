@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GoldPlan | Tu próximo auto te espera</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #D4AF37; --gold-dark: #B8960C; --black: #0a0a0a; --black-light: #141414; --black-lighter: #1e1e1e; --white: #ffffff; --gray: #888; --gray-dark: #444; }
@@ -15,108 +14,62 @@
         ::-webkit-scrollbar-track { background: var(--black); }
         ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 4px; }
 
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
-        @keyframes glow { 0%, 100% { box-shadow: 0 0 20px rgba(212,175,55,0.3); } 50% { box-shadow: 0 0 40px rgba(212,175,55,0.6); } }
-        @keyframes borderGlow { 0%, 100% { border-color: rgba(212,175,55,0.3); } 50% { border-color: rgba(212,175,55,0.8); } }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        @keyframes ping { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
-        @keyframes mouseScroll { 0%, 100% { opacity: 1; top: 8px; } 50% { opacity: 0.3; top: 18px; } }
-
-        .animate-on-scroll { opacity: 0; transform: translateY(50px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
-        .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
-        .animate-on-scroll.from-left { transform: translateX(-50px); }
-        .animate-on-scroll.from-left.visible { transform: translateX(0); }
-        .animate-on-scroll.from-right { transform: translateX(50px); }
-        .animate-on-scroll.from-right.visible { transform: translateX(0); }
-        .delay-1 { transition-delay: 0.1s; } .delay-2 { transition-delay: 0.2s; } .delay-3 { transition-delay: 0.3s; }
-
         .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.2rem 5%; display: flex; justify-content: space-between; align-items: center; background: transparent; transition: all 0.4s ease; }
         .navbar.scrolled { background: rgba(10,10,10,0.95); backdrop-filter: blur(20px); padding: 0.8rem 5%; box-shadow: 0 5px 30px rgba(0,0,0,0.5); }
         .logo { display: flex; align-items: center; gap: 0.8rem; text-decoration: none; }
-        .logo img { height: 45px; border-radius: 4px; transition: transform 0.3s; }
-        .logo:hover img { transform: rotate(-5deg) scale(1.1); }
         .logo-text { font-size: 1.5rem; font-weight: 700; color: var(--gold); }
         .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-        .nav-links a { color: var(--white); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: all 0.3s; position: relative; }
-        .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 50%; width: 0; height: 2px; background: var(--gold); transition: all 0.3s; transform: translateX(-50%); }
+        .nav-links a { color: var(--white); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: all 0.3s; }
         .nav-links a:hover { color: var(--gold); }
-        .nav-links a:hover::after { width: 100%; }
-        .nav-cta { background: var(--gold); color: var(--black) !important; padding: 0.7rem 1.5rem; border-radius: 4px; font-weight: 600; animation: glow 2s infinite; }
-        .nav-cta::after { display: none !important; }
-        .nav-cta:hover { background: var(--gold-dark); transform: scale(1.05); }
+        .nav-cta { background: var(--gold); color: var(--black) !important; padding: 0.7rem 1.5rem; border-radius: 4px; font-weight: 600; }
+        .nav-cta:hover { background: var(--gold-dark); }
         .menu-toggle { display: none; flex-direction: column; gap: 6px; cursor: pointer; }
         .menu-toggle span { width: 28px; height: 2px; background: var(--gold); }
 
         .hero { min-height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .hero-parallax-bg { position: absolute; inset: -20%; width: 140%; height: 140%; background: url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1920&q=80') center center/cover no-repeat; will-change: transform; }
+        .hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1920&q=80') center center/cover no-repeat; }
         .hero-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(10,10,10,0.9) 0%, rgba(10,10,10,0.7) 50%, rgba(10,10,10,0.9) 100%); }
-        .hero-particles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
-        .particle { position: absolute; width: 4px; height: 4px; background: var(--gold); border-radius: 50%; opacity: 0.3; animation: float 6s infinite; }
         .hero-content { position: relative; z-index: 10; text-align: center; max-width: 1000px; padding: 2rem; }
-        .hero-logo { width: 140px; margin-bottom: 2rem; animation: float 4s ease-in-out infinite; filter: drop-shadow(0 0 30px rgba(212,175,55,0.5)); }
-        .hero-badge { display: inline-block; padding: 0.5rem 1.5rem; background: rgba(212,175,55,0.1); border: 1px solid var(--gold); border-radius: 50px; color: var(--gold); font-size: 0.8rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1.5rem; animation: borderGlow 2s infinite, fadeInUp 1s ease; }
-        .hero-title { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 800; margin-bottom: 1.5rem; animation: fadeInUp 1s ease 0.2s both; line-height: 1.1; }
-        .hero-title span { color: var(--gold); position: relative; display: inline-block; }
-        .hero-title span::after { content: ''; position: absolute; bottom: 5px; left: 0; right: 0; height: 10px; background: rgba(212,175,55,0.3); z-index: -1; transform: skewX(-10deg); }
-        .hero-text { font-size: 1.05rem; line-height: 1.9; color: rgba(255,255,255,0.85); max-width: 800px; margin: 0 auto 2rem; animation: fadeInUp 1s ease 0.4s both; }
+        .hero-badge { display: inline-block; padding: 0.5rem 1.5rem; background: rgba(212,175,55,0.1); border: 1px solid var(--gold); border-radius: 50px; color: var(--gold); font-size: 0.8rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1.5rem; }
+        .hero-title { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 800; margin-bottom: 1.5rem; line-height: 1.1; }
+        .hero-title span { color: var(--gold); }
+        .hero-text { font-size: 1.05rem; line-height: 1.9; color: rgba(255,255,255,0.85); max-width: 800px; margin: 0 auto 2rem; }
         .hero-text .gold { color: var(--gold); font-weight: 600; }
-        .hero-stats { display: flex; justify-content: center; gap: 3rem; margin: 3rem 0; animation: fadeInUp 1s ease 0.6s both; }
-        .hero-stat { text-align: center; }
-        .hero-stat-value { font-size: 2.5rem; font-weight: 800; color: var(--gold); text-shadow: 0 0 30px rgba(212,175,55,0.5); }
-        .hero-stat-label { font-size: 0.85rem; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; }
-        .hero-buttons { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; animation: fadeInUp 1s ease 0.8s both; }
-        .btn { padding: 1.1rem 2.8rem; font-size: 0.9rem; font-weight: 600; text-decoration: none; border-radius: 4px; transition: all 0.4s; cursor: pointer; border: none; font-family: 'Poppins', sans-serif; position: relative; overflow: hidden; }
-        .btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: left 0.5s; }
-        .btn:hover::before { left: 100%; }
+        .hero-buttons { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; }
+        .btn { padding: 1.1rem 2.8rem; font-size: 0.9rem; font-weight: 600; text-decoration: none; border-radius: 4px; transition: all 0.4s; cursor: pointer; border: none; font-family: 'Poppins', sans-serif; }
         .btn-primary { background: var(--gold); color: var(--black); }
         .btn-primary:hover { background: var(--gold-dark); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(212,175,55,0.4); }
         .btn-outline { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,0.5); }
-        .btn-outline:hover { background: var(--white); color: var(--black); transform: translateY(-5px); }
-        .scroll-indicator { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; color: var(--gold); font-size: 0.7rem; letter-spacing: 3px; animation: bounce 2s infinite; }
-        .scroll-indicator .mouse { width: 25px; height: 40px; border: 2px solid var(--gold); border-radius: 15px; position: relative; }
-        .scroll-indicator .mouse::before { content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 4px; height: 8px; background: var(--gold); border-radius: 2px; animation: mouseScroll 1.5s infinite; }
+        .btn-outline:hover { background: var(--white); color: var(--black); }
+        .scroll-indicator { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; color: var(--gold); font-size: 0.7rem; letter-spacing: 3px; }
+        .scroll-indicator .mouse { width: 25px; height: 40px; border: 2px solid var(--gold); border-radius: 15px; }
 
         .brands-bar { background: linear-gradient(180deg, var(--black) 0%, var(--black-light) 100%); padding: 2rem 5%; border-bottom: 1px solid var(--gray-dark); }
         .brands-container { display: flex; justify-content: center; align-items: center; gap: 4rem; flex-wrap: wrap; }
-        .brand-link { font-size: 1rem; font-weight: 700; letter-spacing: 2px; text-decoration: none; transition: all 0.4s; opacity: 0.6; cursor: pointer; position: relative; }
-        .brand-link::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: currentColor; transition: width 0.3s; }
-        .brand-link:hover { opacity: 1; transform: scale(1.1) translateY(-3px); }
-        .brand-link:hover::after { width: 100%; }
+        .brand-link { font-size: 1rem; font-weight: 700; letter-spacing: 2px; cursor: pointer; transition: all 0.4s; opacity: 0.6; }
+        .brand-link:hover { opacity: 1; transform: scale(1.1); }
         .brand-link.vw { color: #00B0F0; } .brand-link.fiat { color: #DC0714; } .brand-link.peugeot { color: #00A3E0; } .brand-link.renault { color: #FFCC00; }
 
-        .section { padding: 6rem 5%; position: relative; }
+        .section { padding: 6rem 5%; }
         .section-header { text-align: center; margin-bottom: 4rem; }
         .section-tag { color: var(--gold); font-size: 0.8rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 0.5rem; display: block; }
-        .section-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; background: linear-gradient(135deg, var(--white) 0%, var(--gray) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .section-line { width: 80px; height: 4px; background: var(--gold); margin: 1.5rem auto 0; border-radius: 2px; position: relative; overflow: hidden; }
-        .section-line::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent); animation: shimmer 2s infinite; }
+        .section-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; }
 
         .filters-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
         .brand-filters { display: flex; gap: 0.8rem; flex-wrap: wrap; }
-        .filter-btn { padding: 0.8rem 1.8rem; background: var(--black-lighter); border: 1px solid var(--gray-dark); color: var(--white); font-family: 'Poppins', sans-serif; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.4s; border-radius: 50px; position: relative; overflow: hidden; }
-        .filter-btn::before { content: ''; position: absolute; inset: 0; background: var(--gold); transform: scaleX(0); transform-origin: right; transition: transform 0.4s; }
-        .filter-btn span { position: relative; z-index: 1; }
-        .filter-btn:hover::before, .filter-btn.active::before { transform: scaleX(1); transform-origin: left; }
-        .filter-btn:hover, .filter-btn.active { border-color: var(--gold); color: var(--black); }
+        .filter-btn { padding: 0.8rem 1.8rem; background: var(--black-lighter); border: 1px solid var(--gray-dark); color: var(--white); font-family: 'Poppins', sans-serif; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.4s; border-radius: 50px; }
+        .filter-btn:hover, .filter-btn.active { background: var(--gold); border-color: var(--gold); color: var(--black); }
         .sort-filters { display: flex; gap: 1rem; }
         .sort-btn { background: none; border: none; color: var(--gray); font-family: 'Poppins', sans-serif; font-size: 0.85rem; cursor: pointer; transition: all 0.3s; padding: 0.5rem 1rem; border-radius: 4px; }
-        .sort-btn:hover { color: var(--white); }
         .sort-btn.active { color: var(--gold); background: rgba(212,175,55,0.1); }
 
         .vehicles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 2rem; }
-        .vehicle-card { background: linear-gradient(145deg, var(--black-light), var(--black-lighter)); border: 1px solid var(--gray-dark); border-radius: 16px; overflow: hidden; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; opacity: 0; transform: translateY(50px); }
-        .vehicle-card.visible { opacity: 1; transform: translateY(0); }
-        .vehicle-card:hover { border-color: var(--gold); transform: translateY(-15px) scale(1.02); box-shadow: 0 30px 60px rgba(212,175,55,0.2), 0 0 0 1px var(--gold); }
+        .vehicle-card { background: linear-gradient(145deg, var(--black-light), var(--black-lighter)); border: 1px solid var(--gray-dark); border-radius: 16px; overflow: hidden; transition: all 0.5s; cursor: pointer; }
+        .vehicle-card:hover { border-color: var(--gold); transform: translateY(-10px); box-shadow: 0 30px 60px rgba(212,175,55,0.2); }
         .vehicle-image { height: 200px; background: linear-gradient(135deg, var(--black-lighter), var(--black-light)); display: flex; align-items: center; justify-content: center; font-size: 4.5rem; position: relative; overflow: hidden; }
-        .vehicle-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
-        .vehicle-card:hover .vehicle-image img { transform: scale(1.1); }
-        .vehicle-image::before { content: ''; position: absolute; inset: 0; background: linear-gradient(45deg, transparent 40%, rgba(212,175,55,0.15) 50%, transparent 60%); transform: translateX(-100%); transition: transform 0.6s; }
-        .vehicle-card:hover .vehicle-image::before { transform: translateX(100%); }
-        .vehicle-badge { position: absolute; top: 1rem; left: 1rem; padding: 0.5rem 1.2rem; background: var(--gold); color: var(--black); font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border-radius: 4px; box-shadow: 0 5px 15px rgba(212,175,55,0.4); }
-        .vehicle-badge.usado { background: #3b82f6; box-shadow: 0 5px 15px rgba(59,130,246,0.4); color: white; }
+        .vehicle-image img { width: 100%; height: 100%; object-fit: cover; }
+        .vehicle-badge { position: absolute; top: 1rem; left: 1rem; padding: 0.5rem 1.2rem; background: var(--gold); color: var(--black); font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border-radius: 4px; }
+        .vehicle-badge.usado { background: #3b82f6; color: white; }
         .vehicle-info { padding: 1.8rem; }
         .vehicle-brand { color: var(--gold); font-size: 0.75rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.5rem; }
         .vehicle-name { font-size: 1.15rem; font-weight: 600; margin-bottom: 1rem; line-height: 1.3; }
@@ -129,24 +82,21 @@
         .plan-row { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.4rem; }
         .plan-row span { color: var(--gray); }
         .plan-row strong { color: var(--white); }
-        .vehicle-btn { width: 100%; margin-top: 1.2rem; padding: 1rem; background: transparent; border: 2px solid var(--gold); color: var(--gold); font-family: 'Poppins', sans-serif; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.4s; border-radius: 8px; position: relative; overflow: hidden; }
-        .vehicle-btn::before { content: ''; position: absolute; inset: 0; background: var(--gold); transform: scaleY(0); transform-origin: bottom; transition: transform 0.4s; }
-        .vehicle-btn span { position: relative; z-index: 1; }
-        .vehicle-btn:hover::before { transform: scaleY(1); }
-        .vehicle-btn:hover { color: var(--black); }
+        .vehicle-btn { width: 100%; margin-top: 1.2rem; padding: 1rem; background: transparent; border: 2px solid var(--gold); color: var(--gold); font-family: 'Poppins', sans-serif; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.4s; border-radius: 8px; }
+        .vehicle-btn:hover { background: var(--gold); color: var(--black); }
 
         .vehicle-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 2rem; opacity: 0; visibility: hidden; transition: all 0.4s; }
         .vehicle-modal.active { opacity: 1; visibility: visible; }
-        .modal-content { background: var(--black-light); border: 1px solid var(--gray-dark); border-radius: 20px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; transform: scale(0.8) translateY(50px); transition: transform 0.4s; }
-        .vehicle-modal.active .modal-content { transform: scale(1) translateY(0); }
-        .modal-close { position: absolute; top: 1rem; right: 1rem; width: 45px; height: 45px; background: var(--black-lighter); border: 1px solid var(--gray-dark); border-radius: 50%; color: var(--white); font-size: 1.5rem; cursor: pointer; z-index: 10; transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
-        .modal-close:hover { background: var(--gold); color: var(--black); transform: rotate(90deg); }
+        .modal-content { background: var(--black-light); border: 1px solid var(--gray-dark); border-radius: 20px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; transform: scale(0.8); transition: transform 0.4s; }
+        .vehicle-modal.active .modal-content { transform: scale(1); }
+        .modal-close { position: absolute; top: 1rem; right: 1rem; width: 45px; height: 45px; background: var(--black-lighter); border: 1px solid var(--gray-dark); border-radius: 50%; color: var(--white); font-size: 1.5rem; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
+        .modal-close:hover { background: var(--gold); color: var(--black); }
         .modal-image { height: 280px; background: linear-gradient(135deg, var(--black-lighter), var(--black)); display: flex; align-items: center; justify-content: center; font-size: 6rem; border-radius: 20px 20px 0 0; position: relative; overflow: hidden; }
         .modal-image img { width: 100%; height: 100%; object-fit: cover; }
-        .modal-badge { position: absolute; top: 1rem; left: 1rem; padding: 0.6rem 1.5rem; background: var(--gold); color: var(--black); font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; border-radius: 6px; }
+        .modal-badge { position: absolute; top: 1rem; left: 1rem; padding: 0.6rem 1.5rem; background: var(--gold); color: var(--black); font-size: 0.8rem; font-weight: 700; border-radius: 6px; }
         .modal-badge.usado { background: #3b82f6; color: white; }
         .modal-body { padding: 2rem; }
-        .modal-brand { color: var(--gold); font-size: 0.85rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.5rem; }
+        .modal-brand { color: var(--gold); font-size: 0.85rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.5rem; display: block; }
         .modal-name { font-size: 2rem; font-weight: 700; margin-bottom: 1rem; }
         .modal-price { font-size: 2.2rem; font-weight: 800; color: var(--gold); }
         .modal-price small { display: block; font-size: 0.85rem; color: var(--gray); font-weight: 400; }
@@ -156,59 +106,41 @@
         .modal-plan-row { display: flex; justify-content: space-between; font-size: 0.95rem; margin-bottom: 0.5rem; }
         .modal-plan-row span { color: var(--gray); }
         .modal-plan-row strong { color: var(--white); font-size: 1.1rem; }
-        .modal-btn { width: 100%; padding: 1.3rem; background: var(--gold); border: none; color: var(--black); font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.4s; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
-        .modal-btn:hover { background: var(--gold-dark); transform: translateY(-3px); box-shadow: 0 15px 35px rgba(212,175,55,0.4); }
+        .modal-btn { width: 100%; padding: 1.3rem; background: var(--gold); border: none; color: var(--black); font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.4s; border-radius: 10px; }
+        .modal-btn:hover { background: var(--gold-dark); }
 
-        .vende-section { background: var(--gold); padding: 8rem 5%; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; position: relative; overflow: hidden; }
-        .vende-section::before { content: ''; position: absolute; top: -50%; right: -20%; width: 600px; height: 600px; background: rgba(0,0,0,0.05); border-radius: 50%; }
+        .vende-section { background: var(--gold); padding: 8rem 5%; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
         .vende-content h2 { font-size: clamp(2.5rem, 4vw, 3.5rem); font-weight: 800; color: var(--black); margin-bottom: 1.5rem; }
         .vende-content p { font-size: 1.15rem; color: var(--black); opacity: 0.8; margin-bottom: 2rem; line-height: 1.8; }
-        .vende-features { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
-        .vende-feature { display: flex; align-items: center; gap: 1rem; color: var(--black); font-weight: 500; }
-        .vende-feature-icon { width: 40px; height: 40px; background: var(--black); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
         .vende-btn { display: inline-block; padding: 1.2rem 3rem; background: var(--black); color: var(--white); text-decoration: none; font-weight: 600; border-radius: 8px; transition: all 0.4s; }
-        .vende-btn:hover { background: var(--white); color: var(--black); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
-        .vende-image { height: 450px; background: url('https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=800&q=80') center/cover; border-radius: 20px; box-shadow: 0 30px 60px rgba(0,0,0,0.3); transition: transform 0.5s; }
-        .vende-image:hover { transform: scale(1.02) rotate(1deg); }
+        .vende-btn:hover { background: var(--white); color: var(--black); }
+        .vende-image { height: 450px; background: url('https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=800&q=80') center/cover; border-radius: 20px; }
 
         .contact-section { display: grid; grid-template-columns: 400px 1fr; background: var(--black-light); }
         .contact-info { padding: 4rem 3rem; border-right: 1px solid var(--gray-dark); }
-        .contact-info h2 { font-size: 2.2rem; font-weight: 700; color: var(--gold); margin-bottom: 0.5rem; }
-        .contact-info > p { color: var(--gray); margin-bottom: 2.5rem; }
-        .contact-item { display: flex; gap: 1.2rem; margin-bottom: 2rem; transition: transform 0.3s; }
-        .contact-item:hover { transform: translateX(10px); }
+        .contact-info h2 { font-size: 2.2rem; font-weight: 700; color: var(--gold); margin-bottom: 2rem; }
+        .contact-item { display: flex; gap: 1.2rem; margin-bottom: 2rem; }
         .contact-icon { width: 55px; height: 55px; background: linear-gradient(135deg, var(--gold), var(--gold-dark)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
         .contact-item h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.3rem; }
         .contact-item p, .contact-item a { font-size: 0.9rem; color: var(--gray); text-decoration: none; }
         .contact-item a:hover { color: var(--gold); }
         .contact-maps { display: grid; grid-template-columns: 1fr 1fr; }
         .map-container { position: relative; }
-        .map-container iframe { width: 100%; height: 100%; min-height: 450px; border: none; filter: grayscale(50%); transition: filter 0.5s; }
+        .map-container iframe { width: 100%; height: 100%; min-height: 450px; border: none; filter: grayscale(50%); }
         .map-container:hover iframe { filter: grayscale(0%); }
-        .map-label { position: absolute; bottom: 1rem; left: 1rem; background: var(--black); padding: 0.8rem 1.2rem; border-radius: 8px; font-size: 0.8rem; font-weight: 600; border: 1px solid var(--gray-dark); }
+        .map-label { position: absolute; bottom: 1rem; left: 1rem; background: var(--black); padding: 0.8rem 1.2rem; border-radius: 8px; font-size: 0.8rem; font-weight: 600; }
 
         .footer { background: var(--black); padding: 4rem 5% 2rem; border-top: 1px solid var(--gray-dark); }
-        .footer-main { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
-        .footer-brand p { color: var(--gray); font-size: 0.9rem; margin-top: 1rem; line-height: 1.7; }
-        .footer-links h4 { color: var(--gold); font-size: 0.9rem; font-weight: 600; margin-bottom: 1.5rem; }
-        .footer-links a { display: block; color: var(--gray); text-decoration: none; font-size: 0.9rem; margin-bottom: 0.8rem; transition: all 0.3s; }
-        .footer-links a:hover { color: var(--white); transform: translateX(5px); }
-        .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 2rem; border-top: 1px solid var(--gray-dark); }
-        .footer-logo { display: flex; align-items: center; gap: 0.8rem; }
-        .footer-logo img { height: 40px; border-radius: 4px; }
+        .footer-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
         .footer-logo span { font-size: 1.2rem; font-weight: 700; color: var(--gold); }
-        .footer-bottom p { color: var(--gray); font-size: 0.85rem; }
-        .footer-social { display: flex; gap: 1rem; }
-        .footer-social a { width: 40px; height: 40px; background: var(--black-lighter); border: 1px solid var(--gray-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--white); text-decoration: none; transition: all 0.3s; }
-        .footer-social a:hover { background: var(--gold); border-color: var(--gold); color: var(--black); transform: translateY(-5px); }
+        .footer p { color: var(--gray); font-size: 0.85rem; }
 
-        .whatsapp-float { position: fixed; bottom: 2rem; right: 2rem; width: 65px; height: 65px; background: linear-gradient(135deg, #25D366, #128C7E); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; box-shadow: 0 10px 30px rgba(37,211,102,0.4); z-index: 1000; text-decoration: none; transition: all 0.4s; animation: pulse 2s infinite; }
-        .whatsapp-float:hover { transform: scale(1.15) rotate(10deg); }
-        .whatsapp-float::before { content: ''; position: absolute; inset: -5px; border: 2px solid rgba(37,211,102,0.5); border-radius: 50%; animation: ping 1.5s infinite; }
+        .whatsapp-float { position: fixed; bottom: 2rem; right: 2rem; width: 65px; height: 65px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; box-shadow: 0 10px 30px rgba(37,211,102,0.4); z-index: 1000; text-decoration: none; }
+        .whatsapp-float:hover { transform: scale(1.1); }
 
         .mobile-menu { position: fixed; inset: 0; background: var(--black); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2.5rem; opacity: 0; visibility: hidden; transition: all 0.4s; }
         .mobile-menu.active { opacity: 1; visibility: visible; }
-        .mobile-menu a { color: var(--white); text-decoration: none; font-size: 1.8rem; font-weight: 600; transition: all 0.3s; }
+        .mobile-menu a { color: var(--white); text-decoration: none; font-size: 1.8rem; font-weight: 600; }
         .mobile-menu a:hover { color: var(--gold); }
         .mobile-close { position: absolute; top: 2rem; right: 2rem; font-size: 2.5rem; color: var(--gold); cursor: pointer; }
 
@@ -217,10 +149,8 @@
 
         @media (max-width: 1024px) {
             .vende-section { grid-template-columns: 1fr; text-align: center; }
-            .vende-features { align-items: center; }
             .contact-section { grid-template-columns: 1fr; }
             .contact-maps { grid-template-columns: 1fr; }
-            .footer-main { grid-template-columns: 1fr; text-align: center; }
         }
         @media (max-width: 768px) {
             .nav-links { display: none; }
@@ -229,14 +159,13 @@
             .brands-container { gap: 2rem; }
             .filters-bar { flex-direction: column; }
             .brand-filters, .sort-filters { justify-content: center; }
-            .hero-stats { flex-direction: column; gap: 1.5rem; }
-            .footer-bottom { flex-direction: column; gap: 1.5rem; text-align: center; }
+            .footer-content { flex-direction: column; text-align: center; }
         }
     </style>
 </head>
 <body>
     <nav class="navbar" id="navbar">
-        <a href="#" class="logo"><img src="logo-goldplan.jpeg" alt="GoldPlan" onerror="this.style.display='none'"><span class="logo-text">GoldPlan</span></a>
+        <a href="#" class="logo"><span class="logo-text">GoldPlan</span></a>
         <ul class="nav-links">
             <li><a href="#vehiculos">Vehículos</a></li>
             <li><a href="#vende">Vendé tu Auto</a></li>
@@ -255,15 +184,12 @@
     </div>
 
     <section class="hero">
-        <div class="hero-parallax-bg" id="parallaxBg"></div>
+        <div class="hero-bg"></div>
         <div class="hero-overlay"></div>
-        <div class="hero-particles" id="particles"></div>
         <div class="hero-content">
-            <img src="logo-goldplan.jpeg" alt="GoldPlan" class="hero-logo" onerror="this.style.display='none'">
             <div class="hero-badge">Concesionaria Multimarca</div>
             <h1 class="hero-title">Tu próximo auto te espera en <span>GoldPlan</span></h1>
             <p class="hero-text">Somos especialistas en planes de financiación para autos <span class="gold">0KM</span> y usados seleccionados. Trabajamos con <span class="gold">Volkswagen, Fiat, Peugeot y Renault</span>, brindando planes flexibles y atención personalizada.</p>
-            
             <div class="hero-buttons">
                 <a href="#vehiculos" class="btn btn-primary">Ver Vehículos</a>
                 <a href="https://wa.me/5491178574747" class="btn btn-outline">Contactar</a>
@@ -274,26 +200,25 @@
 
     <div class="brands-bar">
         <div class="brands-container">
-            <span class="brand-link vw animate-on-scroll" data-filter="volkswagen">VOLKSWAGEN</span>
-            <span class="brand-link fiat animate-on-scroll delay-1" data-filter="fiat">FIAT</span>
-            <span class="brand-link peugeot animate-on-scroll delay-2" data-filter="peugeot">PEUGEOT</span>
-            <span class="brand-link renault animate-on-scroll delay-3" data-filter="renault">RENAULT</span>
+            <span class="brand-link vw" data-filter="volkswagen">VOLKSWAGEN</span>
+            <span class="brand-link fiat" data-filter="fiat">FIAT</span>
+            <span class="brand-link peugeot" data-filter="peugeot">PEUGEOT</span>
+            <span class="brand-link renault" data-filter="renault">RENAULT</span>
         </div>
     </div>
 
     <section class="section" id="vehiculos">
-        <div class="section-header animate-on-scroll">
+        <div class="section-header">
             <span class="section-tag">Catálogo</span>
             <h2 class="section-title">Nuestros Vehículos</h2>
-            <div class="section-line"></div>
         </div>
-        <div class="filters-bar animate-on-scroll">
+        <div class="filters-bar">
             <div class="brand-filters">
-                <button class="filter-btn active" data-brand="todos"><span>Todos</span></button>
-                <button class="filter-btn" data-brand="volkswagen"><span>Volkswagen</span></button>
-                <button class="filter-btn" data-brand="fiat"><span>Fiat</span></button>
-                <button class="filter-btn" data-brand="peugeot"><span>Peugeot</span></button>
-                <button class="filter-btn" data-brand="renault"><span>Renault</span></button>
+                <button class="filter-btn active" data-brand="todos">Todos</button>
+                <button class="filter-btn" data-brand="volkswagen">Volkswagen</button>
+                <button class="filter-btn" data-brand="fiat">Fiat</button>
+                <button class="filter-btn" data-brand="peugeot">Peugeot</button>
+                <button class="filter-btn" data-brand="renault">Renault</button>
             </div>
             <div class="sort-filters">
                 <button class="sort-btn active" data-type="todos">Todos</button>
@@ -301,31 +226,25 @@
                 <button class="sort-btn" data-type="usado">Usados</button>
             </div>
         </div>
-        <div class="vehicles-grid" id="vehiclesGrid"></div>
+        <div class="vehicles-grid" id="vehiclesGrid"><div class="no-vehicles"><div class="icon">⏳</div><p>Cargando vehículos...</p></div></div>
     </section>
 
     <section class="vende-section" id="vende">
-        <div class="vende-content animate-on-scroll from-left">
+        <div class="vende-content">
             <h2>Vendé tu auto con GoldPlan</h2>
             <p>Lo tasamos en minutos y lo publicamos por vos. Intermediación segura y transparente.</p>
-            <div class="vende-features">
-                <div class="vende-feature"><div class="vende-feature-icon">⚡</div> Tasación en el momento</div>
-                <div class="vende-feature"><div class="vende-feature-icon">🔒</div> Operación 100% segura</div>
-                <div class="vende-feature"><div class="vende-feature-icon">💰</div> El mejor precio del mercado</div>
-            </div>
             <a href="https://wa.me/5491178574747?text=Hola! Quiero cotizar mi usado" class="vende-btn">Cotizá tu usado →</a>
         </div>
-        <div class="vende-image animate-on-scroll from-right"></div>
+        <div class="vende-image"></div>
     </section>
 
     <section class="contact-section" id="contacto">
         <div class="contact-info">
-            <h2 class="animate-on-scroll">Contactanos</h2>
-            <p class="animate-on-scroll">Estamos para ayudarte</p>
-            <div class="contact-item animate-on-scroll"><div class="contact-icon">📱</div><div><h4>WhatsApp</h4><a href="https://wa.me/5491178574747" id="contactWhatsapp">+54 9 11 7857-4747</a></div></div>
-            <div class="contact-item animate-on-scroll delay-1"><div class="contact-icon">📞</div><div><h4>Teléfono</h4><a href="tel:+5491178574747" id="contactTelefono">+54 9 11 7857-4747</a></div></div>
-            <div class="contact-item animate-on-scroll delay-2"><div class="contact-icon">🕐</div><div><h4>Horarios</h4><p id="contactHorarios">Lunes a Sábados: 09:30 a 19:00hs</p></div></div>
-            <div class="contact-item animate-on-scroll delay-3"><div class="contact-icon">📍</div><div><h4>Sucursales</h4><p>GoldPlan S.A - Principal<br>GoldPlan | Auto del Sol - Florida</p></div></div>
+            <h2>Contactanos</h2>
+            <div class="contact-item"><div class="contact-icon">📱</div><div><h4>WhatsApp</h4><a href="https://wa.me/5491178574747" id="contactWhatsapp">+54 9 11 7857-4747</a></div></div>
+            <div class="contact-item"><div class="contact-icon">📞</div><div><h4>Teléfono</h4><a href="tel:+5491178574747" id="contactTelefono">+54 9 11 7857-4747</a></div></div>
+            <div class="contact-item"><div class="contact-icon">🕐</div><div><h4>Horarios</h4><p id="contactHorarios">Lunes a Sábados: 09:30 a 19:00hs</p></div></div>
+            <div class="contact-item"><div class="contact-icon">📍</div><div><h4>Sucursales</h4><p>GoldPlan S.A - Principal<br>GoldPlan | Auto del Sol</p></div></div>
         </div>
         <div class="contact-maps">
             <div class="map-container"><iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d26317.603314802745!2d-58.8952851!3d-34.459752!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccb482a291645%3A0x960c1b483bf0703f!2sGoldplan%20S.A!5e0!3m2!1ses-419!2sar" allowfullscreen="" loading="lazy"></iframe><div class="map-label">📍 GoldPlan S.A</div></div>
@@ -334,12 +253,10 @@
     </section>
 
     <footer class="footer">
-        <div class="footer-main">
-            <div class="footer-brand animate-on-scroll"><div class="footer-logo"><img src="logo-goldplan.jpeg" alt="GoldPlan" onerror="this.style.display='none'"><span>GoldPlan</span></div><p>Concesionaria multimarca especializada en planes de financiación. Confianza y transparencia.</p></div>
-            <div class="footer-links animate-on-scroll delay-1"><h4>NAVEGACIÓN</h4><a href="#vehiculos">Vehículos</a><a href="#vende">Vendé tu Auto</a><a href="#contacto">Contacto</a></div>
-            <div class="footer-links animate-on-scroll delay-2"><h4>MARCAS</h4><a href="#">Volkswagen</a><a href="#">Fiat</a><a href="#">Peugeot</a><a href="#">Renault</a></div>
+        <div class="footer-content">
+            <div class="footer-logo"><span>GoldPlan</span></div>
+            <p>© 2026 GoldPlan Automotores. Todos los derechos reservados.</p>
         </div>
-        <div class="footer-bottom"><p>© 2026 GoldPlan Automotores. Todos los derechos reservados.</p><div class="footer-social"><a href="#">📘</a><a href="#">📸</a><a href="https://wa.me/5491178574747">💬</a></div></div>
     </footer>
 
     <a href="https://wa.me/5491178574747" class="whatsapp-float" target="_blank">💬</a>
@@ -360,164 +277,170 @@
     </div>
 
     <script>
-        const API_URL = 'https://goldplan-production.up.railway.app/api';
-        let vehicles0km = [], vehiclesUsados = [];
-        let currentVehicle = null, currentVehicleType = null;
+        var API_URL = 'https://goldplan-production.up.railway.app/api';
+        var vehicles0km = [];
+        var vehiclesUsados = [];
+        var currentVehicle = null;
+        var currentVehicleType = null;
+        var curBrand = 'todos';
+        var curType = 'todos';
 
-        // Load data from API
-        async function loadData() {
-            try {
-                const [v0km, usados, config] = await Promise.all([
-                    fetch(`${API_URL}/vehicles/0km`).then(r => r.json()),
-                    fetch(`${API_URL}/vehicles/usados`).then(r => r.json()),
-                    fetch(`${API_URL}/config`).then(r => r.json())
-                ]);
-                vehicles0km = v0km;
-                vehiclesUsados = usados;
+        function loadData() {
+            Promise.all([
+                fetch(API_URL + '/vehicles/0km').then(function(r) { return r.json(); }),
+                fetch(API_URL + '/vehicles/usados').then(function(r) { return r.json(); }),
+                fetch(API_URL + '/config').then(function(r) { return r.json(); })
+            ]).then(function(results) {
+                vehicles0km = results[0];
+                vehiclesUsados = results[1];
+                var config = results[2];
                 if (config.whatsapp) document.getElementById('contactWhatsapp').textContent = config.whatsapp;
                 if (config.telefono) document.getElementById('contactTelefono').textContent = config.telefono;
                 if (config.horarios) document.getElementById('contactHorarios').textContent = config.horarios;
                 renderVehicles();
-            } catch (err) {
-                console.error('Error loading data:', err);
-                // Fallback to empty
-                renderVehicles();
+            }).catch(function(err) {
+                console.error('Error:', err);
+                document.getElementById('vehiclesGrid').innerHTML = '<div class="no-vehicles"><div class="icon">⚠️</div><p>Error al cargar</p></div>';
+            });
+        }
+
+        function renderVehicles() {
+            var grid = document.getElementById('vehiclesGrid');
+            var all = [];
+            var i;
+            
+            if (curType === 'todos' || curType === '0km') {
+                for (i = 0; i < vehicles0km.length; i++) {
+                    var v = vehicles0km[i];
+                    if (curBrand === 'todos' || v.brand === curBrand) {
+                        all.push({id: v.id, brand: v.brand, name: v.name, price: v.price, plan: v.plan, anticipo: v.anticipo, cuota: v.cuota, description: v.description, image: v.image, type: '0km'});
+                    }
+                }
+            }
+            
+            if (curType === 'todos' || curType === 'usado') {
+                for (i = 0; i < vehiclesUsados.length; i++) {
+                    var u = vehiclesUsados[i];
+                    if (curBrand === 'todos' || u.brand === curBrand) {
+                        all.push({id: u.id, brand: u.brand, modelo: u.modelo, year: u.year, km: u.km, price: u.price, description: u.description, image: u.image, type: 'usado'});
+                    }
+                }
+            }
+
+            if (all.length === 0) {
+                grid.innerHTML = '<div class="no-vehicles"><div class="icon">🚗</div><p>No hay vehículos</p></div>';
+                return;
+            }
+
+            var html = '';
+            for (i = 0; i < all.length; i++) {
+                var item = all[i];
+                if (item.type === '0km') {
+                    html += '<div class="vehicle-card" data-id="' + item.id + '" data-type="0km"><div class="vehicle-image">' + (item.image ? '<img src="' + item.image + '">' : '🚗') + '<span class="vehicle-badge">0KM</span></div><div class="vehicle-info"><span class="vehicle-brand">' + item.brand + '</span><h3 class="vehicle-name">' + item.name + '</h3><div class="vehicle-price">' + item.price + '<small>Valor móvil</small></div><div class="vehicle-plan"><div class="plan-title">Plan ' + item.plan + '</div><div class="plan-row"><span>Anticipo</span><strong>' + item.anticipo + '</strong></div><div class="plan-row"><span>Cuota</span><strong>' + item.cuota + '</strong></div></div><button class="vehicle-btn">VER DETALLES</button></div></div>';
+                } else {
+                    html += '<div class="vehicle-card" data-id="' + item.id + '" data-type="usado"><div class="vehicle-image">' + (item.image ? '<img src="' + item.image + '">' : '🚙') + '<span class="vehicle-badge usado">USADO</span></div><div class="vehicle-info"><span class="vehicle-brand">' + item.brand + '</span><h3 class="vehicle-name">' + item.modelo + '</h3><div class="vehicle-price">' + item.price + '<small>Precio contado</small></div><div class="vehicle-plan usado-info"><div class="plan-title">Información</div><div class="plan-row"><span>Año</span><strong>' + item.year + '</strong></div><div class="plan-row"><span>Km</span><strong>' + item.km + '</strong></div></div><button class="vehicle-btn">VER DETALLES</button></div></div>';
+                }
+            }
+            grid.innerHTML = html;
+            
+            var cards = document.querySelectorAll('.vehicle-card');
+            for (i = 0; i < cards.length; i++) {
+                cards[i].onclick = function() { openModal(this); };
             }
         }
-            { id: 1, brand: 'volkswagen', name: 'Tera Trend MSI MT MY26', price: '$36.391.350', plan: '70/30 • 84 Cuotas', anticipo: '$10.917.405', cuota: '$347.103', desc: 'Nuevo SUV compacto de Volkswagen con motorización MSI de alta eficiencia. Equipado con sistema de infoentretenimiento, climatizador automático y sensores de estacionamiento.', image: '' },
-            { id: 2, brand: 'volkswagen', name: 'T-Cross Trendline 200 TSI AT MY26', price: '$52.851.350', plan: '70/30 • 84 Cuotas', anticipo: '$15.855.405', cuota: '$504.100', desc: 'El SUV urbano líder. Motor TSI 200 turbo con transmisión automática. Tecnología VW Play y 6 airbags.', image: '' },
-            { id: 3, brand: 'volkswagen', name: 'Nivus Trendline 200 TSI AT MY26', price: '$45.775.000', plan: '70/30 • 84 Cuotas', anticipo: '$13.732.500', cuota: '$436.605', desc: 'Innovador SUV Coupé. Motor 200 TSI turbo, techo solar panorámico y pantalla táctil de 10".', image: '' },
-            { id: 4, brand: 'volkswagen', name: 'Amarok Trendline TDI MT 4x2 MY25', price: '$58.255.550', plan: '60/40 • 84 Cuotas', anticipo: '$23.302.220', cuota: '$508.493', desc: 'Pick-up de alta gama con motor TDI turbodiesel. Capacidad de carga de 1.104 kg y 3.100 kg de arrastre.', image: '' },
-            { id: 5, brand: 'volkswagen', name: 'Taos Comfortline 250 TSI AT', price: '$56.942.500', plan: '60/40 • 84 Cuotas', anticipo: '$22.777.000', cuota: '$497.032', desc: 'SUV mediano premium con motor 250 TSI de 150 CV. Amplio espacio, techo solar y climatizador bizona.', image: '' },
-            { id: 6, brand: 'fiat', name: 'Titano Endurance MT 4x4', price: '$52.890.000', plan: '70/30 • 84 Cuotas', anticipo: '$15.867.000', cuota: '$533.219', desc: 'Nueva pick-up Fiat con motor turbodiésel de 200 CV y tracción 4x4. Capacidad de carga superior a 1.200 kg.', image: '' },
-            { id: 7, brand: 'fiat', name: 'Titano Freedom MT 4WD', price: '$58.240.000', plan: '60/40 • 84 Cuotas', anticipo: '$23.296.000', cuota: '$509.434', desc: 'Versión tope de gama con tracción integral, asientos de cuero, pantalla de 10" y cámara 360°.', image: '' },
-            { id: 8, brand: 'fiat', name: 'Argo Drive 1.3 MT', price: '$29.780.000', plan: '70/30 • 84 Cuotas', anticipo: '$8.934.000', cuota: '$300.232', desc: 'Hatchback italiano con motor Fire 1.3. Aire acondicionado, dirección asistida y conectividad Bluetooth.', image: '' },
-            { id: 9, brand: 'fiat', name: 'Cronos Drive 1.3 MT5 Pack Plus', price: '$37.020.000', plan: '80/20 • 84 Cuotas', anticipo: '$7.404.000', cuota: '$422.627', desc: 'Sedán compacto con motor 1.3 Firefly. Sistema multimedia con Android Auto y Apple CarPlay. Baúl de 525 litros.', image: '' },
-            { id: 10, brand: 'fiat', name: 'Fastback Turbo 270 AT6', price: '$45.310.000', plan: '60/40 • 84 Cuotas', anticipo: '$18.124.000', cuota: '$396.333', desc: 'SUV Coupé con motor turbo de 185 CV. Transmisión automática, asientos en cuero y techo solar.', image: '' },
-            { id: 11, brand: 'fiat', name: 'Mobi Trekking 1.0', price: '$27.070.000', plan: '80/20 • 84 Cuotas', anticipo: '$5.414.000', cuota: '$309.036', desc: 'City car aventurero. Motor 1.0 Firefly de bajo consumo, suspensión elevada y diseño Trekking.', image: '' },
-            { id: 12, brand: 'fiat', name: 'Toro Freedom T270 AT6 4x2', price: '$47.250.000', plan: '70/30 • 84 Cuotas', anticipo: '$14.175.000', cuota: '$476.359', desc: 'Pick-up mediana con motor turbo T270 de 185 CV. Caja automática y 4 modos de conducción.', image: '' },
-            { id: 13, brand: 'fiat', name: 'Pulse Drive 1.3L MT', price: '$36.670.000', plan: '70/30 • 84 Cuotas', anticipo: '$11.001.000', cuota: '$369.695', desc: 'SUV compacto con motor 1.3 Firefly de 107 CV. Pantalla de 8.4", control de estabilidad y 6 airbags.', image: '' },
-            { id: 14, brand: 'fiat', name: 'Fiorino Endurance 1.4L', price: '$29.310.000', plan: '70/30 • 84 Cuotas', anticipo: '$8.793.000', cuota: '$295.494', desc: 'Utilitario compacto con motor 1.4 Fire EVO. Capacidad de carga de 650 kg y 3.3 m³ de volumen.', image: '' },
-            { id: 15, brand: 'fiat', name: 'Strada Freedom CD', price: '$37.520.000', plan: '70/30 • 84 Cuotas', anticipo: '$11.256.000', cuota: '$378.264', desc: 'La pick-up compacta más vendida. Cabina doble, motor 1.3 Firefly y capacidad de 720 kg.', image: '' },
-            { id: 16, brand: 'peugeot', name: '208 Allure MT', price: '$36.180.000', plan: 'Easy 70/30 • 120 Cuotas', anticipo: '$10.854.000', cuota: '$266.914', desc: 'Hatchback premium con i-Cockpit. Volante compacto, cuadro elevado y pantalla táctil de 7".', image: '' },
-            { id: 17, brand: 'peugeot', name: '208 Allure AT', price: '$38.050.000', plan: 'Plus AT 80/20 • 84 Cuotas', anticipo: '$7.610.000', cuota: '$385.054', desc: 'Versión automática del 208 con i-Cockpit 3D, climatizador automático y cámara trasera.', image: '' },
-            { id: 18, brand: 'peugeot', name: '2008 Active', price: '$44.510.000', plan: '2008 80/20 • 84 Cuotas', anticipo: '$8.902.000', cuota: '$513.527', desc: 'SUV compacto Peugeot. Posición de manejo elevada, motor 1.6 VTi y 6 airbags.', image: '' },
-            { id: 19, brand: 'peugeot', name: '2008 Allure T200', price: '$48.760.000', plan: '70/30 • 84 Cuotas', anticipo: '$9.752.000', cuota: '$562.561', desc: 'Versión tope con motor turbo T200 de 165 CV. i-Cockpit 3D, techo panorámico y navegación.', image: '' },
-            { id: 20, brand: 'peugeot', name: 'Partner Confort 1.6 HDI', price: '$38.070.000', plan: '70/30 • 84 Cuotas', anticipo: '$11.421.000', cuota: '$388.421', desc: 'Utilitario versátil con motor HDI turbodiesel. Capacidad de 850 kg y configuración flexible.', image: '' },
-            { id: 21, brand: 'peugeot', name: 'Expert L3 HDI 120', price: '$57.500.000', plan: '70/30 • 84 Cuotas', anticipo: '$17.250.000', cuota: '$586.072', desc: 'Furgón profesional con motor HDI 120 CV. Volumen de hasta 6.6 m³ y capacidad de 1.400 kg.', image: '' },
-            { id: 22, brand: 'renault', name: 'Kwid Iconic Bitono 1.0', price: '$25.540.000', plan: '100% • 120 Cuotas', anticipo: '$7.662.000', cuota: '$214.167', desc: 'City car con diseño bitono exclusivo. Motor 1.0 SCe, pantalla Media Evolution y climatizador.', image: '' },
-            { id: 23, brand: 'renault', name: 'Kardian Evolution 156 MT', price: '$36.160.000', plan: '100% • 120 Cuotas', anticipo: '$10.848.000', cuota: '$328.944', desc: 'Nuevo SUV Renault con motor 1.0 turbo de 156 CV. Diseño impactante y pantalla de 8".', image: '' },
-            { id: 24, brand: 'renault', name: 'Kardian Iconic 200 EDC', price: '$44.630.000', plan: '75/25 • 84 Cuotas', anticipo: '$11.157.500', cuota: '$445.131', desc: 'Tope de gama con motor turbo de 200 CV y caja EDC. Techo panorámico, cámara 360° y asientos calefaccionados.', image: '' },
-            { id: 25, brand: 'renault', name: 'Duster Intens 1.6 MT', price: '$41.420.000', plan: '100% • 120 Cuotas', anticipo: '$12.426.000', cuota: '$396.002', desc: 'El SUV más versátil. Motor 1.6 SCe, 210 mm de despeje y modos de conducción.', image: '' },
-            { id: 26, brand: 'renault', name: 'Kangoo II Stepway 1.6 SCe', price: '$46.050.000', plan: '80% • 120 Cuotas', anticipo: '$9.210.000', cuota: '$353.467', desc: 'Kangoo aventurera con look Stepway, protecciones y mayor altura libre al piso.', image: '' },
-            { id: 27, brand: 'renault', name: 'Kangoo II Express 2A 1.6 SCe', price: '$41.400.000', plan: '75/25 • 120 Cuotas', anticipo: '$10.350.000', cuota: '$319.287', desc: 'Utilitario de 2 asientos. Motor 1.6 SCe, 3.3 m³ de volumen y 650 kg de capacidad.', image: '' },
-            { id: 28, brand: 'renault', name: 'Kangoo II Express 5A 1.6 SCe', price: '$45.970.000', plan: '75/25 • 120 Cuotas', anticipo: '$11.492.500', cuota: '$346.288', desc: 'Utilitario de 5 asientos. Combina transporte de pasajeros con capacidad de carga.', image: '' },
-            { id: 29, brand: 'renault', name: 'Master 2.3 dCi 130', price: '$60.970.000', plan: '75/25 • 84 Cuotas', anticipo: '$15.242.500', cuota: '$630.600', desc: 'Furgón de gran porte con motor 2.3 dCi de 130 CV. Capacidad de hasta 13 m³ y 1.500 kg.', image: '' },
-            { id: 30, brand: 'renault', name: 'Oroch Emotion 1.6 SCe 2WD', price: '$42.310.000', plan: '60/40 • 84 Cuotas', anticipo: '$16.924.000', cuota: '$320.803', desc: 'Pick-up compacta con ADN Duster. Motor 1.6 SCe, caja de carga de 683 litros.', image: '' },
-            { id: 31, brand: 'renault', name: 'Arkana Espirit Alpine', price: '$53.530.000', plan: '60/40 • 84 Cuotas', anticipo: '$21.412.000', cuota: '$443.206', desc: 'SUV Coupé edición Alpine. Motor 1.3 turbo de 160 CV, caja CVT y modo Sport+.', image: '' }
-        ];
 
-        // Parallax
-        const parallaxBg = document.getElementById('parallaxBg');
-        window.addEventListener('scroll', () => { parallaxBg.style.transform = `translateY(${window.pageYOffset * 0.5}px) scale(1.1)`; });
+        function openModal(card) {
+            var id = parseInt(card.getAttribute('data-id'));
+            var type = card.getAttribute('data-type');
+            var v = null;
+            var i;
 
-        // Particles
-        const particles = document.getElementById('particles');
-        for (let i = 0; i < 30; i++) {
-            const p = document.createElement('div');
-            p.className = 'particle';
-            p.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*6}s;animation-duration:${4+Math.random()*4}s`;
-            particles.appendChild(p);
-        }
+            if (type === '0km') {
+                for (i = 0; i < vehicles0km.length; i++) {
+                    if (vehicles0km[i].id === id) { v = vehicles0km[i]; break; }
+                }
+            } else {
+                for (i = 0; i < vehiclesUsados.length; i++) {
+                    if (vehiclesUsados[i].id === id) { v = vehiclesUsados[i]; break; }
+                }
+            }
 
-        // Counters
-        setTimeout(() => {
-            document.querySelectorAll('.hero-stat-value').forEach(c => {
-                const t = +c.dataset.count, d = 2000, s = t/(d/16);
-                let cur = 0;
-                const timer = setInterval(() => { cur += s; if (cur >= t) { cur = t; clearInterval(timer); } c.textContent = Math.floor(cur) + '+'; }, 16);
-            });
-        }, 1000);
-
-        // Scroll animations
-        const observer = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1 });
-        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
-
-        // Render vehicles
-        function renderVehicles(brandFilter = 'todos', typeFilter = 'todos') {
-            const grid = document.getElementById('vehiclesGrid');
-            let all = [];
-            if (typeFilter === 'todos' || typeFilter === '0km') vehicles0km.forEach(v => { if (brandFilter === 'todos' || v.brand === brandFilter) all.push({...v, type: '0km'}); });
-            if (typeFilter === 'todos' || typeFilter === 'usado') vehiclesUsados.forEach(v => { if (brandFilter === 'todos' || v.brand === brandFilter) all.push({...v, type: 'usado'}); });
-
-            if (!all.length) { grid.innerHTML = '<div class="no-vehicles"><div class="icon">🚗</div><p>No hay vehículos con estos filtros</p></div>'; return; }
-
-            grid.innerHTML = all.map((v, i) => v.type === '0km' ? `
-                <div class="vehicle-card" data-id="${v.id}" data-type="0km" style="transition-delay:${i*0.05}s">
-                    <div class="vehicle-image">${v.image ? `<img src="${v.image}">` : '🚗'}<span class="vehicle-badge">0KM</span></div>
-                    <div class="vehicle-info">
-                        <span class="vehicle-brand">${v.brand}</span>
-                        <h3 class="vehicle-name">${v.name}</h3>
-                        <div class="vehicle-price">${v.price}<small>Valor móvil</small></div>
-                        <div class="vehicle-plan"><div class="plan-title">Plan ${v.plan}</div><div class="plan-row"><span>Anticipo</span><strong>${v.anticipo}</strong></div><div class="plan-row"><span>Cuota</span><strong>${v.cuota}</strong></div></div>
-                        <button class="vehicle-btn"><span>VER DETALLES</span></button>
-                    </div>
-                </div>` : `
-                <div class="vehicle-card" data-id="${v.id}" data-type="usado" style="transition-delay:${i*0.05}s">
-                    <div class="vehicle-image">${v.image ? `<img src="${v.image}">` : '🚙'}<span class="vehicle-badge usado">USADO</span></div>
-                    <div class="vehicle-info">
-                        <span class="vehicle-brand">${v.brand}</span>
-                        <h3 class="vehicle-name">${v.modelo}</h3>
-                        <div class="vehicle-price">${v.price}<small>Precio contado</small></div>
-                        <div class="vehicle-plan usado-info"><div class="plan-title">Información</div><div class="plan-row"><span>Año</span><strong>${v.year}</strong></div><div class="plan-row"><span>Km</span><strong>${v.km}</strong></div></div>
-                        <button class="vehicle-btn"><span>VER DETALLES</span></button>
-                    </div>
-                </div>`).join('');
-
-            setTimeout(() => document.querySelectorAll('.vehicle-card').forEach(c => { observer.observe(c); c.onclick = () => openVehicleModal(c); }), 100);
-        }
-
-        function openVehicleModal(card) {
-            const id = +card.dataset.id, type = card.dataset.type, modal = document.getElementById('vehicleModal');
-            let v = type === '0km' ? vehicles0km.find(x => x.id === id) : vehiclesUsados.find(x => x.id === id);
             if (!v) return;
-            currentVehicle = v.name || v.modelo; currentVehicleType = type;
+            currentVehicle = v.name || v.modelo;
+            currentVehicleType = type;
 
-            document.getElementById('modalImage').innerHTML = (v.image ? `<img src="${v.image}">` : (type === '0km' ? '🚗' : '🚙')) + `<span class="modal-badge ${type === 'usado' ? 'usado' : ''}">${type === '0km' ? '0KM' : 'USADO'}</span>`;
+            document.getElementById('modalImage').innerHTML = (v.image ? '<img src="' + v.image + '">' : (type === '0km' ? '🚗' : '🚙')) + '<span class="modal-badge' + (type === 'usado' ? ' usado' : '') + '">' + (type === '0km' ? '0KM' : 'USADO') + '</span>';
             document.getElementById('modalBrand').textContent = v.brand;
             document.getElementById('modalName').textContent = v.name || v.modelo;
-            document.getElementById('modalPrice').innerHTML = `${v.price}<small>${type === '0km' ? 'Valor móvil' : 'Precio contado'}</small>`;
-            document.getElementById('modalDescription').textContent = v.description || v.desc || 'Vehículo de excelente calidad.';
-            document.getElementById('modalPlan').innerHTML = type === '0km' ? `<div class="modal-plan-title">Plan ${v.plan}</div><div class="modal-plan-row"><span>Anticipo</span><strong>${v.anticipo}</strong></div><div class="modal-plan-row"><span>Cuota</span><strong>${v.cuota}</strong></div>` : `<div class="modal-plan-title" style="color:#3b82f6">Información</div><div class="modal-plan-row"><span>Año</span><strong>${v.year}</strong></div><div class="modal-plan-row"><span>Km</span><strong>${v.km}</strong></div>`;
-            document.getElementById('modalPlan').style.background = type === 'usado' ? 'rgba(59,130,246,0.1)' : '';
-            document.getElementById('modalPlan').style.borderColor = type === 'usado' ? 'rgba(59,130,246,0.3)' : '';
-            modal.classList.add('active'); document.body.style.overflow = 'hidden';
+            document.getElementById('modalPrice').innerHTML = v.price + '<small>' + (type === '0km' ? 'Valor móvil' : 'Precio contado') + '</small>';
+            document.getElementById('modalDescription').textContent = v.description || 'Vehículo de excelente calidad.';
+            
+            if (type === '0km') {
+                document.getElementById('modalPlan').innerHTML = '<div class="modal-plan-title">Plan ' + v.plan + '</div><div class="modal-plan-row"><span>Anticipo</span><strong>' + v.anticipo + '</strong></div><div class="modal-plan-row"><span>Cuota</span><strong>' + v.cuota + '</strong></div>';
+                document.getElementById('modalPlan').style.background = '';
+                document.getElementById('modalPlan').style.borderColor = '';
+            } else {
+                document.getElementById('modalPlan').innerHTML = '<div class="modal-plan-title" style="color:#3b82f6">Información</div><div class="modal-plan-row"><span>Año</span><strong>' + v.year + '</strong></div><div class="modal-plan-row"><span>Km</span><strong>' + v.km + '</strong></div>';
+                document.getElementById('modalPlan').style.background = 'rgba(59,130,246,0.1)';
+                document.getElementById('modalPlan').style.borderColor = 'rgba(59,130,246,0.3)';
+            }
+            
+            document.getElementById('vehicleModal').className = 'vehicle-modal active';
+            document.body.style.overflow = 'hidden';
         }
 
-        function closeModal() { document.getElementById('vehicleModal').classList.remove('active'); document.body.style.overflow = ''; }
-        function consultarWhatsApp() { window.open(`https://wa.me/5491178574747?text=Hola! Me interesa el ${currentVehicle} (${currentVehicleType === '0km' ? '0KM' : 'usado'})`, '_blank'); }
+        function closeModal() {
+            document.getElementById('vehicleModal').className = 'vehicle-modal';
+            document.body.style.overflow = '';
+        }
 
-        document.getElementById('vehicleModal').onclick = e => { if (e.target.id === 'vehicleModal') closeModal(); };
-        document.onkeydown = e => { if (e.key === 'Escape') closeModal(); };
+        function consultarWhatsApp() {
+            window.open('https://wa.me/5491178574747?text=' + encodeURIComponent('Hola! Me interesa el ' + currentVehicle + ' (' + (currentVehicleType === '0km' ? '0KM' : 'usado') + ')'), '_blank');
+        }
 
-        // Navbar
-        window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50));
+        document.getElementById('vehicleModal').onclick = function(e) { if (e.target.id === 'vehicleModal') closeModal(); };
+        document.onkeydown = function(e) { if (e.key === 'Escape') closeModal(); };
+        window.onscroll = function() { document.getElementById('navbar').className = window.scrollY > 50 ? 'navbar scrolled' : 'navbar'; };
+        document.getElementById('menuToggle').onclick = function() { document.getElementById('mobileMenu').className = 'mobile-menu active'; };
+        document.getElementById('mobileClose').onclick = function() { document.getElementById('mobileMenu').className = 'mobile-menu'; };
 
-        // Mobile menu
-        document.getElementById('menuToggle').onclick = () => document.getElementById('mobileMenu').classList.add('active');
-        document.getElementById('mobileClose').onclick = () => document.getElementById('mobileMenu').classList.remove('active');
-        document.querySelectorAll('.mobile-menu a').forEach(l => l.onclick = () => document.getElementById('mobileMenu').classList.remove('active'));
+        var mobileLinks = document.querySelectorAll('.mobile-menu a');
+        for (var m = 0; m < mobileLinks.length; m++) {
+            mobileLinks[m].onclick = function() { document.getElementById('mobileMenu').className = 'mobile-menu'; };
+        }
 
-        // Filters
-        let curBrand = 'todos', curType = 'todos';
-        document.querySelectorAll('.filter-btn').forEach(b => b.onclick = function() { document.querySelectorAll('.filter-btn').forEach(x => x.classList.remove('active')); this.classList.add('active'); curBrand = this.dataset.brand; renderVehicles(curBrand, curType); });
-        document.querySelectorAll('.sort-btn').forEach(b => b.onclick = function() { document.querySelectorAll('.sort-btn').forEach(x => x.classList.remove('active')); this.classList.add('active'); curType = this.dataset.type; renderVehicles(curBrand, curType); });
-        document.querySelectorAll('.brand-link').forEach(l => l.onclick = function() { curBrand = this.dataset.filter; document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.brand === curBrand)); renderVehicles(curBrand, curType); document.getElementById('vehiculos').scrollIntoView({ behavior: 'smooth' }); });
+        var filterBtns = document.querySelectorAll('.filter-btn');
+        for (var f = 0; f < filterBtns.length; f++) {
+            filterBtns[f].onclick = function() {
+                for (var x = 0; x < filterBtns.length; x++) filterBtns[x].className = 'filter-btn';
+                this.className = 'filter-btn active';
+                curBrand = this.getAttribute('data-brand');
+                renderVehicles();
+            };
+        }
 
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(a => a.onclick = function(e) { e.preventDefault(); document.querySelector(this.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
+        var sortBtns = document.querySelectorAll('.sort-btn');
+        for (var s = 0; s < sortBtns.length; s++) {
+            sortBtns[s].onclick = function() {
+                for (var x = 0; x < sortBtns.length; x++) sortBtns[x].className = 'sort-btn';
+                this.className = 'sort-btn active';
+                curType = this.getAttribute('data-type');
+                renderVehicles();
+            };
+        }
 
-        // Init - Load from API
+        var brandLinks = document.querySelectorAll('.brand-link');
+        for (var b = 0; b < brandLinks.length; b++) {
+            brandLinks[b].onclick = function() {
+                curBrand = this.getAttribute('data-filter');
+                for (var x = 0; x < filterBtns.length; x++) {
+                    filterBtns[x].className = filterBtns[x].getAttribute('data-brand') === curBrand ? 'filter-btn active' : 'filter-btn';
+                }
+                renderVehicles();
+                document.getElementById('vehiculos').scrollIntoView({ behavior: 'smooth' });
+            };
+        }
+
         loadData();
     </script>
 </body>
