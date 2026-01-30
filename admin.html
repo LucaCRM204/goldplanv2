@@ -3,191 +3,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GoldPlan Admin Panel</title>
+    <title>GoldPlan Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #D4AF37; --gold-dark: #B8960C; --black: #0a0a0a; --black-light: #141414; --black-lighter: #1e1e1e; --white: #ffffff; --gray: #888; --gray-dark: #333; --green: #22c55e; --red: #ef4444; --blue: #3b82f6; --purple: #8b5cf6; }
+        :root { --gold: #D4AF37; --gold-dark: #B8960C; --black: #0a0a0a; --black-light: #141414; --black-lighter: #1e1e1e; --white: #ffffff; --gray: #888; --gray-dark: #333; --green: #10b981; --red: #ef4444; --blue: #3b82f6; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Poppins', sans-serif; background: var(--black); color: var(--white); min-height: 100vh; }
-        .login-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
-        .login-box { background: var(--black-light); border: 1px solid var(--gray-dark); border-radius: 12px; padding: 3rem; width: 100%; max-width: 400px; }
+        
+        .login-container { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+        .login-box { background: var(--black-light); border: 1px solid var(--gray-dark); border-radius: 16px; padding: 3rem; width: 100%; max-width: 400px; }
         .login-box h1 { color: var(--gold); font-size: 1.8rem; margin-bottom: 0.5rem; text-align: center; }
-        .login-box p { color: var(--gray); text-align: center; margin-bottom: 2rem; }
+        .login-box p { color: var(--gray); text-align: center; margin-bottom: 2rem; font-size: 0.9rem; }
         .form-group { margin-bottom: 1.5rem; }
         .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.85rem; color: var(--gray); }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.9rem 1rem; background: var(--black-lighter); border: 1px solid var(--gray-dark); border-radius: 6px; color: var(--white); font-family: 'Poppins', sans-serif; font-size: 0.95rem; transition: border-color 0.3s; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.9rem 1rem; background: var(--black-lighter); border: 1px solid var(--gray-dark); border-radius: 8px; color: var(--white); font-family: 'Poppins', sans-serif; font-size: 0.95rem; }
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--gold); }
-        .btn { padding: 1rem 2rem; border: none; border-radius: 6px; font-family: 'Poppins', sans-serif; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+        .form-group textarea { min-height: 150px; resize: vertical; line-height: 1.6; }
+        .btn { padding: 0.9rem 1.8rem; font-size: 0.9rem; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; font-family: 'Poppins', sans-serif; }
         .btn-primary { background: var(--gold); color: var(--black); width: 100%; }
         .btn-primary:hover { background: var(--gold-dark); }
-        .btn-secondary { background: var(--black-lighter); color: var(--white); border: 1px solid var(--gray-dark); }
+        .btn-secondary { background: var(--gray-dark); color: var(--white); }
         .btn-danger { background: var(--red); color: var(--white); }
         .btn-sm { padding: 0.5rem 1rem; font-size: 0.8rem; }
-        .admin-panel { display: none; }
-        .admin-panel.active { display: block; }
-        .admin-header { background: var(--black-light); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--gray-dark); position: sticky; top: 0; z-index: 100; }
-        .admin-logo { font-size: 1.3rem; font-weight: 700; color: var(--gold); }
-        .admin-logo span { color: var(--white); font-weight: 400; }
-        .admin-user { display: flex; align-items: center; gap: 1rem; }
-        .admin-user span { color: var(--gray); font-size: 0.85rem; }
-        .user-role { background: var(--purple); color: white; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; }
-        .user-role.admin { background: var(--blue); }
-        .admin-container { display: flex; min-height: calc(100vh - 60px); }
-        .sidebar { width: 250px; background: var(--black-light); border-right: 1px solid var(--gray-dark); padding: 1.5rem 0; }
+        .error-msg { background: rgba(239,68,68,0.1); border: 1px solid var(--red); color: var(--red); padding: 0.8rem; border-radius: 8px; margin-bottom: 1rem; font-size: 0.85rem; text-align: center; display: none; }
+        
+        .admin-container { display: none; }
+        .sidebar { position: fixed; left: 0; top: 0; bottom: 0; width: 250px; background: var(--black-light); border-right: 1px solid var(--gray-dark); padding: 2rem 0; }
+        .sidebar-logo { padding: 0 1.5rem; margin-bottom: 2rem; }
+        .sidebar-logo h2 { color: var(--gold); font-size: 1.4rem; }
+        .sidebar-logo span { color: var(--gray); font-size: 0.75rem; }
         .sidebar-menu { list-style: none; }
-        .sidebar-menu li a { display: flex; align-items: center; gap: 0.8rem; padding: 1rem 1.5rem; color: var(--gray); text-decoration: none; font-size: 0.9rem; transition: all 0.3s; border-left: 3px solid transparent; }
-        .sidebar-menu li a:hover, .sidebar-menu li a.active { background: var(--black-lighter); color: var(--white); border-left-color: var(--gold); }
-        .sidebar-menu li a.disabled { opacity: 0.4; pointer-events: none; display: none; }
-        .main-content { flex: 1; padding: 2rem; overflow-y: auto; }
+        .sidebar-menu li a { display: flex; align-items: center; gap: 0.8rem; padding: 1rem 1.5rem; color: var(--gray); text-decoration: none; border-left: 3px solid transparent; }
+        .sidebar-menu li a:hover, .sidebar-menu li a.active { background: rgba(212,175,55,0.1); color: var(--gold); border-left-color: var(--gold); }
+        .sidebar-footer { position: absolute; bottom: 2rem; left: 0; right: 0; padding: 0 1.5rem; }
+        .user-info { display: flex; align-items: center; gap: 0.8rem; padding: 1rem; background: var(--black-lighter); border-radius: 8px; margin-bottom: 1rem; }
+        .user-avatar { width: 40px; height: 40px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--black); }
+        .user-details .name { font-size: 0.9rem; font-weight: 500; }
+        .user-details .role { font-size: 0.75rem; color: var(--gray); }
+        .logout-btn { width: 100%; padding: 0.8rem; background: transparent; border: 1px solid var(--gray-dark); color: var(--gray); cursor: pointer; border-radius: 8px; font-family: 'Poppins', sans-serif; }
+        .logout-btn:hover { border-color: var(--red); color: var(--red); }
+        
+        .main-content { margin-left: 250px; padding: 2rem; }
         .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
-        .page-title { font-size: 1.5rem; font-weight: 600; }
-        .page-title small { display: block; font-size: 0.85rem; color: var(--gray); font-weight: 400; }
+        .page-header h1 { font-size: 1.8rem; }
+        
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
-        .stat-card { background: var(--black-light); border: 1px solid var(--gray-dark); border-radius: 10px; padding: 1.5rem; }
-        .stat-card .icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .stat-card { background: var(--black-light); border: 1px solid var(--gray-dark); border-radius: 12px; padding: 1.5rem; }
         .stat-card .value { font-size: 2rem; font-weight: 700; color: var(--gold); }
         .stat-card .label { color: var(--gray); font-size: 0.85rem; }
-        .table-container { background: var(--black-light); border: 1px solid var(--gray-dark); border-radius: 10px; overflow: hidden; }
-        .table-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--gray-dark); }
-        .table-header h3 { font-size: 1rem; font-weight: 600; }
-        .table-search input { padding: 0.5rem 1rem; background: var(--black-lighter); border: 1px solid var(--gray-dark); border-radius: 6px; color: var(--white); font-size: 0.85rem; }
-        .vehicles-table { width: 100%; border-collapse: collapse; }
-        .vehicles-table th, .vehicles-table td { padding: 1rem 1.5rem; text-align: left; border-bottom: 1px solid var(--gray-dark); }
-        .vehicles-table th { background: var(--black-lighter); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--gray); }
-        .vehicles-table tr:hover { background: var(--black-lighter); }
-        .vehicle-cell { display: flex; align-items: center; gap: 1rem; }
-        .vehicle-thumb { width: 60px; height: 45px; background: var(--black-lighter); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; overflow: hidden; }
-        .vehicle-thumb img { width: 100%; height: 100%; object-fit: cover; }
-        .badge { padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.7rem; font-weight: 600; }
-        .badge-superadmin { background: rgba(139, 92, 246, 0.2); color: var(--purple); }
-        .badge-admin { background: rgba(59, 130, 246, 0.2); color: var(--blue); }
-        .price-cell { font-weight: 600; color: var(--gold); }
-        .btn-icon { width: 35px; height: 35px; border-radius: 6px; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; transition: all 0.3s; font-size: 1rem; }
-        .btn-edit { background: rgba(59, 130, 246, 0.2); color: var(--blue); }
-        .btn-edit:hover { background: var(--blue); color: var(--white); }
-        .btn-delete { background: rgba(239, 68, 68, 0.2); color: var(--red); }
-        .btn-delete:hover { background: var(--red); color: var(--white); }
-        .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; padding: 2rem; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s; }
-        .modal.active { opacity: 1; visibility: visible; }
-        .modal-content { background: var(--black-light); border: 1px solid var(--gray-dark); border-radius: 12px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; }
+        
+        .section { display: none; }
+        .section.active { display: block; }
+        
+        .tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .tab { padding: 0.7rem 1.5rem; background: var(--black-lighter); border: 1px solid var(--gray-dark); color: var(--gray); cursor: pointer; border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: 0.85rem; }
+        .tab:hover, .tab.active { background: var(--gold); border-color: var(--gold); color: var(--black); }
+        
+        .vehicles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
+        .vehicle-card-admin { background: var(--black-light); border: 1px solid var(--gray-dark); border-radius: 12px; overflow: hidden; }
+        .vehicle-card-admin .images-preview { height: 160px; background: var(--black-lighter); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+        .vehicle-card-admin .images-preview img { width: 100%; height: 100%; object-fit: cover; }
+        .vehicle-card-admin .images-preview .placeholder { font-size: 3rem; opacity: 0.5; }
+        .vehicle-card-admin .images-count { position: absolute; bottom: 0.5rem; right: 0.5rem; background: rgba(0,0,0,0.7); padding: 0.3rem 0.6rem; border-radius: 4px; font-size: 0.7rem; }
+        .vehicle-card-admin .info { padding: 1.2rem; }
+        .vehicle-card-admin .brand { color: var(--gold); font-size: 0.7rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+        .vehicle-card-admin .name { font-size: 1rem; font-weight: 600; margin: 0.3rem 0; }
+        .vehicle-card-admin .price { color: var(--gold); font-size: 1.1rem; font-weight: 700; }
+        .vehicle-card-admin .actions { display: flex; gap: 0.5rem; margin-top: 1rem; }
+        .vehicle-card-admin .actions button { flex: 1; padding: 0.6rem; font-size: 0.8rem; border-radius: 6px; cursor: pointer; border: none; font-family: 'Poppins', sans-serif; }
+        .vehicle-card-admin .btn-edit { background: var(--blue); color: white; }
+        .vehicle-card-admin .btn-delete { background: var(--red); color: white; }
+        
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; display: none; align-items: flex-start; justify-content: center; padding: 2rem; overflow-y: auto; }
+        .modal.active { display: flex; }
+        .modal-content { background: var(--black-light); border: 1px solid var(--gray-dark); border-radius: 16px; width: 100%; max-width: 700px; margin: 2rem 0; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; border-bottom: 1px solid var(--gray-dark); }
-        .modal-header h3 { font-size: 1.1rem; font-weight: 600; }
+        .modal-header h2 { font-size: 1.3rem; }
         .modal-close { background: none; border: none; color: var(--gray); font-size: 1.5rem; cursor: pointer; }
-        .modal-close:hover { color: var(--white); }
-        .modal-body { padding: 1.5rem; }
-        .modal-footer { display: flex; justify-content: flex-end; gap: 1rem; padding: 1.5rem; border-top: 1px solid var(--gray-dark); }
-        .image-upload { border: 2px dashed var(--gray-dark); border-radius: 8px; padding: 2rem; text-align: center; cursor: pointer; transition: all 0.3s; margin-bottom: 1rem; }
-        .image-upload:hover { border-color: var(--gold); }
-        .image-upload.has-image { padding: 0; border-style: solid; }
-        .image-upload img { width: 100%; height: 200px; object-fit: cover; border-radius: 6px; }
-        .image-upload .placeholder { color: var(--gray); }
-        .image-upload .placeholder .icon { font-size: 3rem; margin-bottom: 0.5rem; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        .tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--gray-dark); padding-bottom: 0.5rem; overflow-x: auto; }
-        .tab-btn { padding: 0.7rem 1.5rem; background: none; border: none; color: var(--gray); font-family: 'Poppins', sans-serif; font-size: 0.9rem; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.3s; white-space: nowrap; }
-        .tab-btn:hover, .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
-        .page-section { display: none; }
-        .page-section.active { display: block; }
-        .toast { position: fixed; bottom: 2rem; right: 2rem; padding: 1rem 1.5rem; border-radius: 8px; color: var(--white); font-size: 0.9rem; z-index: 10000; transform: translateY(100px); opacity: 0; transition: all 0.3s; }
-        .toast.active { transform: translateY(0); opacity: 1; }
+        .modal-body { padding: 1.5rem; max-height: 70vh; overflow-y: auto; }
+        .modal-footer { padding: 1.5rem; border-top: 1px solid var(--gray-dark); display: flex; gap: 1rem; justify-content: flex-end; }
+        
+        .images-manager { margin-bottom: 1.5rem; }
+        .images-manager > label { display: block; margin-bottom: 0.8rem; font-size: 0.85rem; color: var(--gray); }
+        .images-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.8rem; margin-bottom: 1rem; }
+        .image-slot { aspect-ratio: 1; background: var(--black-lighter); border: 2px dashed var(--gray-dark); border-radius: 8px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; cursor: pointer; }
+        .image-slot:hover { border-color: var(--gold); }
+        .image-slot.has-image { border-style: solid; border-color: var(--gold); }
+        .image-slot img { width: 100%; height: 100%; object-fit: cover; }
+        .image-slot .add-icon { font-size: 1.5rem; color: var(--gray); }
+        .image-slot .remove-btn { position: absolute; top: 0.3rem; right: 0.3rem; width: 22px; height: 22px; background: var(--red); border: none; border-radius: 50%; color: white; font-size: 0.8rem; cursor: pointer; display: none; }
+        .image-slot.has-image .remove-btn { display: flex; align-items: center; justify-content: center; }
+        .image-slot .slot-number { position: absolute; bottom: 0.3rem; left: 0.3rem; background: rgba(0,0,0,0.7); padding: 0.2rem 0.4rem; border-radius: 3px; font-size: 0.65rem; }
+        .images-hint { font-size: 0.75rem; color: var(--gray); }
+        
+        .char-count { text-align: right; font-size: 0.75rem; color: var(--gray); margin-top: 0.3rem; }
+        
+        .toast { position: fixed; bottom: 2rem; right: 2rem; padding: 1rem 1.5rem; border-radius: 8px; color: white; font-size: 0.9rem; z-index: 20000; transform: translateY(100px); opacity: 0; transition: all 0.3s; }
+        .toast.show { transform: translateY(0); opacity: 1; }
         .toast.success { background: var(--green); }
         .toast.error { background: var(--red); }
-        .loading { text-align: center; padding: 3rem; color: var(--gray); }
-        .user-avatar { width: 40px; height: 40px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--black); }
-        @media (max-width: 768px) { .sidebar { display: none; } .form-row { grid-template-columns: 1fr; } }
+        
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--gray-dark); }
+        th { color: var(--gray); font-weight: 500; font-size: 0.85rem; }
+        
+        .badge { padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; }
+        .badge-gold { background: rgba(212,175,55,0.2); color: var(--gold); }
+        .badge-blue { background: rgba(59,130,246,0.2); color: var(--blue); }
+        
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); }
+            .main-content { margin-left: 0; }
+            .images-grid { grid-template-columns: repeat(3, 1fr); }
+            .form-row { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
-    <div class="login-screen" id="loginScreen">
+    <div class="login-container" id="loginContainer">
         <div class="login-box">
-            <h1>🚗 GoldPlan</h1>
+            <h1>GoldPlan</h1>
             <p>Panel de Administración</p>
+            <div class="error-msg" id="loginError"></div>
             <form id="loginForm">
-                <div class="form-group"><label>Usuario</label><input type="text" id="loginUser" required></div>
-                <div class="form-group"><label>Contraseña</label><input type="password" id="loginPass" required></div>
-                <button type="submit" class="btn btn-primary">Ingresar</button>
+                <div class="form-group"><label>Usuario</label><input type="text" id="loginUsername" required></div>
+                <div class="form-group"><label>Contraseña</label><input type="password" id="loginPassword" required></div>
+                <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
             </form>
         </div>
     </div>
 
-    <div class="admin-panel" id="adminPanel">
-        <header class="admin-header">
-            <div class="admin-logo">GoldPlan <span>Admin</span></div>
-            <div class="admin-user">
-                <span id="welcomeUser">Hola, Admin</span>
-                <span class="user-role" id="userRoleBadge">ADMIN</span>
-                <button class="btn btn-secondary btn-sm" onclick="logout()">Salir</button>
+    <div class="admin-container" id="adminContainer">
+        <aside class="sidebar">
+            <div class="sidebar-logo"><h2>GoldPlan</h2><span>Panel de Administración</span></div>
+            <ul class="sidebar-menu">
+                <li><a href="#" class="active" data-section="dashboard"><span>📊</span> Dashboard</a></li>
+                <li><a href="#" data-section="vehicles0km"><span>🚗</span> Vehículos 0KM</a></li>
+                <li><a href="#" data-section="vehiclesUsados"><span>🚙</span> Vehículos Usados</a></li>
+                <li id="menuUsers" style="display:none;"><a href="#" data-section="users"><span>👥</span> Usuarios</a></li>
+                <li><a href="#" data-section="config"><span>⚙️</span> Configuración</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">L</div>
+                    <div class="user-details"><div class="name" id="userName">Usuario</div><div class="role" id="userRole">admin</div></div>
+                </div>
+                <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
             </div>
-        </header>
-        <div class="admin-container">
-            <aside class="sidebar">
-                <ul class="sidebar-menu">
-                    <li><a href="#" class="active" data-page="dashboard"><span class="icon">📊</span> Dashboard</a></li>
-                    <li><a href="#" data-page="0km"><span class="icon">🚗</span> Vehículos 0KM</a></li>
-                    <li><a href="#" data-page="usados"><span class="icon">🚙</span> Vehículos Usados</a></li>
-                    <li><a href="#" data-page="config"><span class="icon">⚙️</span> Configuración</a></li>
-                    <li><a href="#" data-page="usuarios" id="menuUsuarios" class="disabled"><span class="icon">👥</span> Usuarios</a></li>
-                </ul>
-            </aside>
-            <main class="main-content">
-                <section class="page-section active" id="pageDashboard">
-                    <div class="page-header"><div class="page-title">Dashboard<small>Resumen general</small></div></div>
-                    <div class="stats-grid">
-                        <div class="stat-card"><div class="icon">🚗</div><div class="value" id="stat0km">0</div><div class="label">Vehículos 0KM</div></div>
-                        <div class="stat-card"><div class="icon">🚙</div><div class="value" id="statUsados">0</div><div class="label">Vehículos Usados</div></div>
-                        <div class="stat-card"><div class="icon">📸</div><div class="value" id="statFotos">0</div><div class="label">Fotos cargadas</div></div>
-                        <div class="stat-card"><div class="icon">👥</div><div class="value" id="statUsuarios">0</div><div class="label">Usuarios</div></div>
-                    </div>
-                </section>
-                <section class="page-section" id="page0km">
-                    <div class="page-header"><div class="page-title">Vehículos 0KM<small>Gestionar precios y fotos</small></div></div>
-                    <div class="tabs">
-                        <button class="tab-btn active" data-brand="todos">Todos</button>
-                        <button class="tab-btn" data-brand="volkswagen">Volkswagen</button>
-                        <button class="tab-btn" data-brand="fiat">Fiat</button>
-                        <button class="tab-btn" data-brand="peugeot">Peugeot</button>
-                        <button class="tab-btn" data-brand="renault">Renault</button>
-                    </div>
-                    <div class="table-container">
-                        <div class="table-header"><h3>Inventario 0KM</h3><div class="table-search"><input type="text" placeholder="Buscar..." id="search0km"></div></div>
-                        <table class="vehicles-table"><thead><tr><th>Vehículo</th><th>Marca</th><th>Precio</th><th>Plan</th><th>Acciones</th></tr></thead><tbody id="table0km"><tr><td colspan="5" class="loading">Cargando...</td></tr></tbody></table>
-                    </div>
-                </section>
-                <section class="page-section" id="pageUsados">
-                    <div class="page-header"><div class="page-title">Vehículos Usados<small>Agregar y gestionar usados</small></div><button class="btn btn-primary" onclick="openUsadoModal()">+ Agregar Usado</button></div>
-                    <div class="table-container">
-                        <div class="table-header"><h3>Inventario Usados</h3></div>
-                        <table class="vehicles-table"><thead><tr><th>Vehículo</th><th>Año</th><th>Km</th><th>Precio</th><th>Acciones</th></tr></thead><tbody id="tableUsados"><tr><td colspan="5" class="loading">Cargando...</td></tr></tbody></table>
-                    </div>
-                </section>
-                <section class="page-section" id="pageConfig">
-                    <div class="page-header"><div class="page-title">Configuración<small>Ajustes generales</small></div></div>
-                    <div class="table-container" style="padding: 2rem;">
-                        <h3 style="margin-bottom: 1.5rem;">Datos de Contacto</h3>
-                        <div class="form-group"><label>WhatsApp</label><input type="text" id="configWhatsapp" value="+54 9 11 7857-4747"></div>
-                        <div class="form-group"><label>Teléfono</label><input type="text" id="configTelefono" value="+54 9 11 7857-4747"></div>
-                        <div class="form-group"><label>Horarios</label><input type="text" id="configHorarios" value="Lunes a Sábados: 09:30 a 19:00hs"></div>
-                        <button class="btn btn-primary" onclick="saveConfig()">Guardar Cambios</button>
-                    </div>
-                </section>
-                <section class="page-section" id="pageUsuarios">
-                    <div class="page-header"><div class="page-title">Gestión de Usuarios<small>Crear y eliminar usuarios</small></div><button class="btn btn-primary" onclick="openUserModal()">+ Nuevo Usuario</button></div>
-                    <div class="table-container">
-                        <table class="vehicles-table"><thead><tr><th>Usuario</th><th>Nombre</th><th>Rol</th><th>Acciones</th></tr></thead><tbody id="tableUsuarios"><tr><td colspan="4" class="loading">Cargando...</td></tr></tbody></table>
-                    </div>
-                </section>
-            </main>
-        </div>
+        </aside>
+
+        <main class="main-content">
+            <section class="section active" id="sectionDashboard">
+                <div class="page-header"><h1>Dashboard</h1></div>
+                <div class="stats-grid">
+                    <div class="stat-card"><div class="value" id="stat0km">0</div><div class="label">Vehículos 0KM</div></div>
+                    <div class="stat-card"><div class="value" id="statUsados">0</div><div class="label">Vehículos Usados</div></div>
+                    <div class="stat-card"><div class="value" id="statUsers">0</div><div class="label">Usuarios</div></div>
+                </div>
+            </section>
+
+            <section class="section" id="sectionVehicles0km">
+                <div class="page-header"><h1>Vehículos 0KM</h1></div>
+                <div class="tabs" id="brandTabs0km"></div>
+                <div class="vehicles-grid" id="vehicles0kmGrid"></div>
+            </section>
+
+            <section class="section" id="sectionVehiclesUsados">
+                <div class="page-header"><h1>Vehículos Usados</h1><button class="btn btn-primary" onclick="openUsadoModal()">+ Agregar Usado</button></div>
+                <div class="vehicles-grid" id="vehiclesUsadosGrid"></div>
+            </section>
+
+            <section class="section" id="sectionUsers">
+                <div class="page-header"><h1>Usuarios</h1><button class="btn btn-primary" onclick="openUserModal()">+ Agregar Usuario</button></div>
+                <div class="table-container"><table><thead><tr><th>Usuario</th><th>Nombre</th><th>Rol</th><th>Acciones</th></tr></thead><tbody id="usersTable"></tbody></table></div>
+            </section>
+
+            <section class="section" id="sectionConfig">
+                <div class="page-header"><h1>Configuración</h1></div>
+                <div style="max-width: 500px;">
+                    <div class="form-group"><label>WhatsApp</label><input type="text" id="configWhatsapp"></div>
+                    <div class="form-group"><label>Teléfono</label><input type="text" id="configTelefono"></div>
+                    <div class="form-group"><label>Horarios</label><input type="text" id="configHorarios"></div>
+                    <button class="btn btn-primary" onclick="saveConfig()">Guardar</button>
+                </div>
+            </section>
+        </main>
     </div>
 
     <div class="modal" id="modal0km">
         <div class="modal-content">
-            <div class="modal-header"><h3>Editar Vehículo 0KM</h3><button class="modal-close" onclick="closeModal('modal0km')">✕</button></div>
+            <div class="modal-header"><h2>Editar Vehículo 0KM</h2><button class="modal-close" onclick="closeModal('modal0km')">✕</button></div>
             <div class="modal-body">
                 <input type="hidden" id="edit0kmId">
-                <div class="image-upload" id="imageUpload0km" onclick="document.getElementById('imageInput0km').click()"><div class="placeholder"><div class="icon">📷</div><div>Click para subir imagen</div></div></div>
-                <input type="file" id="imageInput0km" accept="image/*" style="display:none" onchange="previewImage(this, 'imageUpload0km')">
-                <div class="form-group"><label>Nombre</label><input type="text" id="edit0kmName" readonly></div>
+                <div class="form-group"><label>Vehículo</label><input type="text" id="edit0kmName" readonly style="opacity:0.7"></div>
+                <div class="images-manager"><label>Imágenes (máximo 10)</label><div class="images-grid" id="images0kmGrid"></div><p class="images-hint">Hacé clic en un slot para agregar imagen. La primera será la principal.</p></div>
                 <div class="form-row">
                     <div class="form-group"><label>Precio</label><input type="text" id="edit0kmPrice"></div>
                     <div class="form-group"><label>Plan</label><input type="text" id="edit0kmPlan"></div>
@@ -196,7 +208,7 @@
                     <div class="form-group"><label>Anticipo</label><input type="text" id="edit0kmAnticipo"></div>
                     <div class="form-group"><label>Cuota</label><input type="text" id="edit0kmCuota"></div>
                 </div>
-                <div class="form-group"><label>Descripción</label><textarea id="edit0kmDesc" rows="3"></textarea></div>
+                <div class="form-group"><label>Descripción</label><textarea id="edit0kmDescription" maxlength="2000" oninput="updateCharCount(this,'charCount0km')"></textarea><div class="char-count"><span id="charCount0km">0</span>/2000</div></div>
             </div>
             <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal('modal0km')">Cancelar</button><button class="btn btn-primary" onclick="save0km()">Guardar</button></div>
         </div>
@@ -204,96 +216,90 @@
 
     <div class="modal" id="modalUsado">
         <div class="modal-content">
-            <div class="modal-header"><h3 id="modalUsadoTitle">Agregar Usado</h3><button class="modal-close" onclick="closeModal('modalUsado')">✕</button></div>
+            <div class="modal-header"><h2 id="modalUsadoTitle">Agregar Usado</h2><button class="modal-close" onclick="closeModal('modalUsado')">✕</button></div>
             <div class="modal-body">
                 <input type="hidden" id="editUsadoId">
-                <div class="image-upload" id="imageUploadUsado" onclick="document.getElementById('imageInputUsado').click()"><div class="placeholder"><div class="icon">📷</div><div>Click para subir imagen</div></div></div>
-                <input type="file" id="imageInputUsado" accept="image/*" style="display:none" onchange="previewImage(this, 'imageUploadUsado')">
                 <div class="form-row">
-                    <div class="form-group"><label>Marca</label><select id="editUsadoMarca"><option value="volkswagen">Volkswagen</option><option value="fiat">Fiat</option><option value="peugeot">Peugeot</option><option value="renault">Renault</option><option value="chevrolet">Chevrolet</option><option value="ford">Ford</option><option value="toyota">Toyota</option><option value="otro">Otro</option></select></div>
+                    <div class="form-group"><label>Marca</label><select id="editUsadoBrand"><option value="volkswagen">Volkswagen</option><option value="fiat">Fiat</option><option value="peugeot">Peugeot</option><option value="renault">Renault</option><option value="chevrolet">Chevrolet</option><option value="ford">Ford</option><option value="toyota">Toyota</option><option value="otro">Otro</option></select></div>
                     <div class="form-group"><label>Modelo</label><input type="text" id="editUsadoModelo"></div>
                 </div>
+                <div class="images-manager"><label>Imágenes (máximo 10)</label><div class="images-grid" id="imagesUsadoGrid"></div><p class="images-hint">Hacé clic en un slot para agregar imagen.</p></div>
                 <div class="form-row">
-                    <div class="form-group"><label>Año</label><input type="number" id="editUsadoYear"></div>
+                    <div class="form-group"><label>Año</label><input type="number" id="editUsadoYear" min="1990" max="2026"></div>
                     <div class="form-group"><label>Kilómetros</label><input type="text" id="editUsadoKm"></div>
                 </div>
                 <div class="form-group"><label>Precio</label><input type="text" id="editUsadoPrice"></div>
-                <div class="form-group"><label>Descripción</label><textarea id="editUsadoDesc" rows="3"></textarea></div>
+                <div class="form-group"><label>Descripción</label><textarea id="editUsadoDescription" maxlength="2000" oninput="updateCharCount(this,'charCountUsado')"></textarea><div class="char-count"><span id="charCountUsado">0</span>/2000</div></div>
             </div>
-            <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal('modalUsado')">Cancelar</button><button class="btn btn-danger" id="btnDeleteUsado" onclick="deleteUsado()" style="display:none">Eliminar</button><button class="btn btn-primary" onclick="saveUsado()">Guardar</button></div>
+            <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal('modalUsado')">Cancelar</button><button class="btn btn-primary" onclick="saveUsado()">Guardar</button></div>
         </div>
     </div>
 
     <div class="modal" id="modalUser">
         <div class="modal-content">
-            <div class="modal-header"><h3 id="modalUserTitle">Nuevo Usuario</h3><button class="modal-close" onclick="closeModal('modalUser')">✕</button></div>
+            <div class="modal-header"><h2 id="modalUserTitle">Agregar Usuario</h2><button class="modal-close" onclick="closeModal('modalUser')">✕</button></div>
             <div class="modal-body">
                 <input type="hidden" id="editUserId">
                 <div class="form-group"><label>Usuario</label><input type="text" id="editUserUsername"></div>
                 <div class="form-group"><label>Nombre</label><input type="text" id="editUserName"></div>
-                <div class="form-group"><label>Contraseña</label><input type="password" id="editUserPass"></div>
+                <div class="form-group"><label>Contraseña</label><input type="password" id="editUserPassword"></div>
                 <div class="form-group"><label>Rol</label><select id="editUserRole"><option value="admin">Admin</option><option value="superadmin">Superadmin</option></select></div>
             </div>
             <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal('modalUser')">Cancelar</button><button class="btn btn-primary" onclick="saveUser()">Guardar</button></div>
         </div>
     </div>
 
+    <input type="file" id="imageInput" accept="image/*" style="display:none">
     <div class="toast" id="toast"></div>
 
     <script>
-        const API_URL = 'https://goldplan-production.up.railway.app/api';
-        let token = localStorage.getItem('goldplan_token');
-        let currentUser = JSON.parse(localStorage.getItem('goldplan_user') || 'null');
-        let vehicles0km = [], vehiclesUsados = [], users = [];
+        var API_URL = 'https://goldplan-production.up.railway.app/api';
+        var token = localStorage.getItem('goldplan_token');
+        var currentUser = null;
+        var vehicles0km = [];
+        var vehiclesUsados = [];
+        var users = [];
+        var current0kmImages = [];
+        var currentUsadoImages = [];
+        var currentImageTarget = null;
+        var currentImageIndex = null;
 
-        // API Helper
-        async function api(endpoint, options = {}) {
-            const headers = { 'Content-Type': 'application/json' };
-            if (token) headers['Authorization'] = `Bearer ${token}`;
-            try {
-                const res = await fetch(`${API_URL}${endpoint}`, { ...options, headers });
-                const data = await res.json();
-                if (!res.ok) throw new Error(data.error || 'Error');
-                return data;
-            } catch (err) {
-                if (err.message.includes('Token')) { logout(); }
-                throw err;
-            }
+        function showToast(msg, type) { var t = document.getElementById('toast'); t.textContent = msg; t.className = 'toast ' + type + ' show'; setTimeout(function() { t.className = 'toast'; }, 3000); }
+        function updateCharCount(textarea, countId) { document.getElementById(countId).textContent = textarea.value.length; }
+
+        async function api(endpoint, options) {
+            options = options || {};
+            var headers = { 'Content-Type': 'application/json' };
+            if (token) headers['Authorization'] = 'Bearer ' + token;
+            options.headers = headers;
+            if (options.body) options.body = JSON.stringify(options.body);
+            var res = await fetch(API_URL + endpoint, options);
+            if (res.status === 401) { logout(); throw new Error('No autorizado'); }
+            return res.json();
         }
 
-        // Auth
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        document.getElementById('loginForm').onsubmit = async function(e) {
             e.preventDefault();
+            var errEl = document.getElementById('loginError');
+            errEl.style.display = 'none';
             try {
-                const data = await api('/login', {
-                    method: 'POST',
-                    body: JSON.stringify({ username: document.getElementById('loginUser').value, password: document.getElementById('loginPass').value })
-                });
-                token = data.token;
-                currentUser = data.user;
+                var data = await api('/login', { method: 'POST', body: { username: document.getElementById('loginUsername').value, password: document.getElementById('loginPassword').value } });
+                if (data.error) { errEl.textContent = data.error; errEl.style.display = 'block'; return; }
+                token = data.token; currentUser = data.user;
                 localStorage.setItem('goldplan_token', token);
-                localStorage.setItem('goldplan_user', JSON.stringify(currentUser));
-                showAdminPanel();
-                showToast('Bienvenido ' + currentUser.name, 'success');
-            } catch (err) { showToast(err.message, 'error'); }
-        });
+                showAdmin();
+            } catch (err) { errEl.textContent = 'Error de conexión'; errEl.style.display = 'block'; }
+        };
 
-        function logout() {
-            token = null; currentUser = null;
-            localStorage.removeItem('goldplan_token');
-            localStorage.removeItem('goldplan_user');
-            document.getElementById('adminPanel').classList.remove('active');
-            document.getElementById('loginScreen').style.display = 'flex';
-        }
+        function logout() { token = null; currentUser = null; localStorage.removeItem('goldplan_token'); document.getElementById('loginContainer').style.display = 'flex'; document.getElementById('adminContainer').style.display = 'none'; }
 
-        async function showAdminPanel() {
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('adminPanel').classList.add('active');
-            document.getElementById('welcomeUser').textContent = `Hola, ${currentUser.name.split(' ')[0]}`;
-            const badge = document.getElementById('userRoleBadge');
-            badge.textContent = currentUser.role.toUpperCase();
-            badge.className = currentUser.role === 'superadmin' ? 'user-role' : 'user-role admin';
-            document.getElementById('menuUsuarios').classList.toggle('disabled', currentUser.role !== 'superadmin');
+        async function showAdmin() {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('adminContainer').style.display = 'block';
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('userRole').textContent = currentUser.role;
+            document.getElementById('userAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
+            if (currentUser.role === 'superadmin') document.getElementById('menuUsers').style.display = 'block';
             await loadData();
         }
 
@@ -302,265 +308,204 @@
                 vehicles0km = await api('/vehicles/0km');
                 vehiclesUsados = await api('/vehicles/usados');
                 if (currentUser.role === 'superadmin') users = await api('/users');
-                const config = await api('/config');
+                var config = await api('/config');
+                document.getElementById('stat0km').textContent = vehicles0km.length;
+                document.getElementById('statUsados').textContent = vehiclesUsados.length;
+                document.getElementById('statUsers').textContent = users.length || '-';
                 if (config.whatsapp) document.getElementById('configWhatsapp').value = config.whatsapp;
                 if (config.telefono) document.getElementById('configTelefono').value = config.telefono;
                 if (config.horarios) document.getElementById('configHorarios').value = config.horarios;
-                renderDashboard();
-                render0kmTable();
-                renderUsadosTable();
-                if (currentUser.role === 'superadmin') renderUsersTable();
-            } catch (err) { console.error(err); }
+                renderBrandTabs(); render0km(); renderUsados(); renderUsers();
+            } catch (err) { showToast('Error al cargar', 'error'); }
         }
 
-        // Dashboard
-        function renderDashboard() {
-            document.getElementById('stat0km').textContent = vehicles0km.length;
-            document.getElementById('statUsados').textContent = vehiclesUsados.length;
-            document.getElementById('statFotos').textContent = vehicles0km.filter(v => v.image).length + vehiclesUsados.filter(v => v.image).length;
-            document.getElementById('statUsuarios').textContent = users.length || '-';
+        function renderBrandTabs() {
+            var brands = ['todos', 'volkswagen', 'fiat', 'peugeot', 'renault'];
+            var html = '';
+            for (var i = 0; i < brands.length; i++) html += '<button class="tab' + (i === 0 ? ' active' : '') + '" data-brand="' + brands[i] + '">' + (brands[i] === 'todos' ? 'Todos' : brands[i].charAt(0).toUpperCase() + brands[i].slice(1)) + '</button>';
+            document.getElementById('brandTabs0km').innerHTML = html;
+            var tabs = document.querySelectorAll('#brandTabs0km .tab');
+            for (var j = 0; j < tabs.length; j++) tabs[j].onclick = function() { for (var k = 0; k < tabs.length; k++) tabs[k].className = 'tab'; this.className = 'tab active'; render0km(this.getAttribute('data-brand')); };
         }
 
-        // 0KM
-        function render0kmTable(filter = 'todos') {
-            const filtered = filter === 'todos' ? vehicles0km : vehicles0km.filter(v => v.brand === filter);
-            document.getElementById('table0km').innerHTML = filtered.length ? filtered.map(v => `
-                <tr>
-                    <td><div class="vehicle-cell"><div class="vehicle-thumb">${v.image ? `<img src="${v.image}">` : '🚗'}</div><div><strong>${v.name}</strong><br><small style="color:var(--gray)">${v.image ? '✅' : '⚠️'} Foto</small></div></div></td>
-                    <td style="text-transform:capitalize">${v.brand}</td>
-                    <td class="price-cell">${v.price}</td>
-                    <td>${v.plan}</td>
-                    <td><button class="btn-icon btn-edit" onclick="edit0km(${v.id})">✏️</button></td>
-                </tr>
-            `).join('') : '<tr><td colspan="5" class="loading">No hay vehículos</td></tr>';
+        function render0km(brand) {
+            brand = brand || 'todos';
+            var html = '';
+            for (var i = 0; i < vehicles0km.length; i++) {
+                var v = vehicles0km[i];
+                if (brand !== 'todos' && v.brand !== brand) continue;
+                var imgs = v.images || [];
+                var mainImg = imgs.length > 0 ? imgs[0] : (v.image || '');
+                html += '<div class="vehicle-card-admin"><div class="images-preview">' + (mainImg ? '<img src="' + mainImg + '">' : '<span class="placeholder">🚗</span>') + (imgs.length > 1 ? '<span class="images-count">📷 ' + imgs.length + '</span>' : '') + '</div><div class="info"><span class="brand">' + v.brand + '</span><h3 class="name">' + v.name + '</h3><div class="price">' + v.price + '</div><div class="actions"><button class="btn-edit" onclick="edit0km(' + v.id + ')">✏️ Editar</button></div></div></div>';
+            }
+            document.getElementById('vehicles0kmGrid').innerHTML = html || '<p style="color:var(--gray)">No hay vehículos</p>';
         }
 
-        document.querySelectorAll('#page0km .tab-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('#page0km .tab-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                render0kmTable(this.dataset.brand);
-            });
-        });
+        function renderUsados() {
+            var html = '';
+            for (var i = 0; i < vehiclesUsados.length; i++) {
+                var v = vehiclesUsados[i];
+                var imgs = v.images || [];
+                var mainImg = imgs.length > 0 ? imgs[0] : (v.image || '');
+                html += '<div class="vehicle-card-admin"><div class="images-preview">' + (mainImg ? '<img src="' + mainImg + '">' : '<span class="placeholder">🚙</span>') + (imgs.length > 1 ? '<span class="images-count">📷 ' + imgs.length + '</span>' : '') + '</div><div class="info"><span class="brand">' + v.brand + '</span><h3 class="name">' + v.modelo + '</h3><div class="price">' + v.price + '</div><div class="actions"><button class="btn-edit" onclick="editUsado(' + v.id + ')">✏️ Editar</button><button class="btn-delete" onclick="deleteUsado(' + v.id + ')">🗑️</button></div></div></div>';
+            }
+            document.getElementById('vehiclesUsadosGrid').innerHTML = html || '<p style="color:var(--gray)">No hay usados</p>';
+        }
+
+        function renderUsers() {
+            var html = '';
+            for (var i = 0; i < users.length; i++) {
+                var u = users[i];
+                html += '<tr><td>' + u.username + '</td><td>' + u.name + '</td><td><span class="badge ' + (u.role === 'superadmin' ? 'badge-gold' : 'badge-blue') + '">' + u.role + '</span></td><td>' + (u.username !== 'Luca.Caorsi' ? '<button class="btn btn-sm btn-secondary" onclick="editUser(' + u.id + ')">Editar</button> <button class="btn btn-sm btn-danger" onclick="deleteUser(' + u.id + ')">Eliminar</button>' : '-') + '</td></tr>';
+            }
+            document.getElementById('usersTable').innerHTML = html;
+        }
+
+        function renderImagesGrid(containerId, images) {
+            var html = '';
+            for (var i = 0; i < 10; i++) {
+                var img = images[i] || '';
+                html += '<div class="image-slot' + (img ? ' has-image' : '') + '" data-index="' + i + '" onclick="selectImageSlot(\'' + containerId + '\',' + i + ')">' + (img ? '<img src="' + img + '">' : '<span class="add-icon">+</span>') + '<button class="remove-btn" onclick="event.stopPropagation();removeImage(\'' + containerId + '\',' + i + ')">✕</button><span class="slot-number">' + (i + 1) + '</span></div>';
+            }
+            document.getElementById(containerId).innerHTML = html;
+        }
+
+        function selectImageSlot(containerId, index) { currentImageTarget = containerId; currentImageIndex = index; document.getElementById('imageInput').click(); }
+
+        document.getElementById('imageInput').onchange = function(e) {
+            var file = e.target.files[0]; if (!file) return;
+            var reader = new FileReader();
+            reader.onload = function(ev) {
+                if (currentImageTarget === 'images0kmGrid') { current0kmImages[currentImageIndex] = ev.target.result; renderImagesGrid('images0kmGrid', current0kmImages); }
+                else if (currentImageTarget === 'imagesUsadoGrid') { currentUsadoImages[currentImageIndex] = ev.target.result; renderImagesGrid('imagesUsadoGrid', currentUsadoImages); }
+            };
+            reader.readAsDataURL(file); e.target.value = '';
+        };
+
+        function removeImage(containerId, index) {
+            if (containerId === 'images0kmGrid') { current0kmImages.splice(index, 1); renderImagesGrid('images0kmGrid', current0kmImages); }
+            else { currentUsadoImages.splice(index, 1); renderImagesGrid('imagesUsadoGrid', currentUsadoImages); }
+        }
 
         function edit0km(id) {
-            const v = vehicles0km.find(x => x.id === id);
-            document.getElementById('edit0kmId').value = id;
-            document.getElementById('edit0kmName').value = v.name;
-            document.getElementById('edit0kmPrice').value = v.price || '';
-            document.getElementById('edit0kmPlan').value = v.plan || '';
-            document.getElementById('edit0kmAnticipo').value = v.anticipo || '';
-            document.getElementById('edit0kmCuota').value = v.cuota || '';
-            document.getElementById('edit0kmDesc').value = v.description || '';
-            const upload = document.getElementById('imageUpload0km');
-            if (v.image) { upload.innerHTML = `<img src="${v.image}">`; upload.classList.add('has-image'); }
-            else { upload.innerHTML = '<div class="placeholder"><div class="icon">📷</div><div>Click para subir</div></div>'; upload.classList.remove('has-image'); }
-            openModal('modal0km');
+            var v = null; for (var i = 0; i < vehicles0km.length; i++) if (vehicles0km[i].id === id) { v = vehicles0km[i]; break; }
+            if (!v) return;
+            document.getElementById('edit0kmId').value = v.id;
+            document.getElementById('edit0kmName').value = v.brand.toUpperCase() + ' ' + v.name;
+            document.getElementById('edit0kmPrice').value = v.price;
+            document.getElementById('edit0kmPlan').value = v.plan;
+            document.getElementById('edit0kmAnticipo').value = v.anticipo;
+            document.getElementById('edit0kmCuota').value = v.cuota;
+            document.getElementById('edit0kmDescription').value = v.description || '';
+            document.getElementById('charCount0km').textContent = (v.description || '').length;
+            current0kmImages = v.images ? v.images.slice() : [];
+            if (!current0kmImages.length && v.image) current0kmImages = [v.image];
+            renderImagesGrid('images0kmGrid', current0kmImages);
+            document.getElementById('modal0km').className = 'modal active';
         }
 
         async function save0km() {
-            const id = document.getElementById('edit0kmId').value;
-            const img = document.getElementById('imageUpload0km').querySelector('img');
+            var id = document.getElementById('edit0kmId').value;
+            var images = []; for (var i = 0; i < current0kmImages.length; i++) if (current0kmImages[i]) images.push(current0kmImages[i]);
             try {
-                await api(`/vehicles/0km/${id}`, {
-                    method: 'PUT',
-                    body: JSON.stringify({
-                        price: document.getElementById('edit0kmPrice').value,
-                        plan: document.getElementById('edit0kmPlan').value,
-                        anticipo: document.getElementById('edit0kmAnticipo').value,
-                        cuota: document.getElementById('edit0kmCuota').value,
-                        description: document.getElementById('edit0kmDesc').value,
-                        image: img ? img.src : null
-                    })
-                });
-                closeModal('modal0km');
-                await loadData();
-                showToast('Vehículo actualizado', 'success');
-            } catch (err) { showToast(err.message, 'error'); }
+                await api('/vehicles/0km/' + id, { method: 'PUT', body: { price: document.getElementById('edit0kmPrice').value, plan: document.getElementById('edit0kmPlan').value, anticipo: document.getElementById('edit0kmAnticipo').value, cuota: document.getElementById('edit0kmCuota').value, description: document.getElementById('edit0kmDescription').value, image: images[0] || '', images: images } });
+                closeModal('modal0km'); showToast('Guardado', 'success'); loadData();
+            } catch (err) { showToast('Error', 'error'); }
         }
 
-        // Usados
-        function renderUsadosTable() {
-            document.getElementById('tableUsados').innerHTML = vehiclesUsados.length ? vehiclesUsados.map(v => `
-                <tr>
-                    <td><div class="vehicle-cell"><div class="vehicle-thumb">${v.image ? `<img src="${v.image}">` : '🚙'}</div><div><strong>${v.modelo}</strong><br><small style="color:var(--gray);text-transform:capitalize">${v.brand}</small></div></div></td>
-                    <td>${v.year}</td>
-                    <td>${v.km}</td>
-                    <td class="price-cell">${v.price}</td>
-                    <td><button class="btn-icon btn-edit" onclick="editUsado(${v.id})">✏️</button><button class="btn-icon btn-delete" onclick="confirmDeleteUsado(${v.id})">🗑️</button></td>
-                </tr>
-            `).join('') : '<tr><td colspan="5" class="loading">No hay usados. Agregá uno!</td></tr>';
+        function openUsadoModal() {
+            document.getElementById('modalUsadoTitle').textContent = 'Agregar Usado';
+            document.getElementById('editUsadoId').value = '';
+            document.getElementById('editUsadoBrand').value = 'volkswagen';
+            document.getElementById('editUsadoModelo').value = '';
+            document.getElementById('editUsadoYear').value = '';
+            document.getElementById('editUsadoKm').value = '';
+            document.getElementById('editUsadoPrice').value = '';
+            document.getElementById('editUsadoDescription').value = '';
+            document.getElementById('charCountUsado').textContent = '0';
+            currentUsadoImages = [];
+            renderImagesGrid('imagesUsadoGrid', currentUsadoImages);
+            document.getElementById('modalUsado').className = 'modal active';
         }
 
-        function openUsadoModal(id = null) {
-            document.getElementById('editUsadoId').value = id || '';
-            document.getElementById('modalUsadoTitle').textContent = id ? 'Editar Usado' : 'Agregar Usado';
-            document.getElementById('btnDeleteUsado').style.display = id ? 'block' : 'none';
-            if (id) {
-                const v = vehiclesUsados.find(x => x.id === id);
-                document.getElementById('editUsadoMarca').value = v.brand;
-                document.getElementById('editUsadoModelo').value = v.modelo;
-                document.getElementById('editUsadoYear').value = v.year;
-                document.getElementById('editUsadoKm').value = v.km;
-                document.getElementById('editUsadoPrice').value = v.price;
-                document.getElementById('editUsadoDesc').value = v.description || '';
-                const upload = document.getElementById('imageUploadUsado');
-                if (v.image) { upload.innerHTML = `<img src="${v.image}">`; upload.classList.add('has-image'); }
-                else resetImageUpload('imageUploadUsado');
-            } else {
-                ['editUsadoMarca','editUsadoModelo','editUsadoYear','editUsadoKm','editUsadoPrice','editUsadoDesc'].forEach(id => document.getElementById(id).value = '');
-                document.getElementById('editUsadoMarca').value = 'volkswagen';
-                resetImageUpload('imageUploadUsado');
-            }
-            openModal('modalUsado');
+        function editUsado(id) {
+            var v = null; for (var i = 0; i < vehiclesUsados.length; i++) if (vehiclesUsados[i].id === id) { v = vehiclesUsados[i]; break; }
+            if (!v) return;
+            document.getElementById('modalUsadoTitle').textContent = 'Editar Usado';
+            document.getElementById('editUsadoId').value = v.id;
+            document.getElementById('editUsadoBrand').value = v.brand;
+            document.getElementById('editUsadoModelo').value = v.modelo;
+            document.getElementById('editUsadoYear').value = v.year;
+            document.getElementById('editUsadoKm').value = v.km;
+            document.getElementById('editUsadoPrice').value = v.price;
+            document.getElementById('editUsadoDescription').value = v.description || '';
+            document.getElementById('charCountUsado').textContent = (v.description || '').length;
+            currentUsadoImages = v.images ? v.images.slice() : [];
+            if (!currentUsadoImages.length && v.image) currentUsadoImages = [v.image];
+            renderImagesGrid('imagesUsadoGrid', currentUsadoImages);
+            document.getElementById('modalUsado').className = 'modal active';
         }
-
-        function editUsado(id) { openUsadoModal(id); }
 
         async function saveUsado() {
-            const id = document.getElementById('editUsadoId').value;
-            const img = document.getElementById('imageUploadUsado').querySelector('img');
-            const data = {
-                brand: document.getElementById('editUsadoMarca').value,
-                modelo: document.getElementById('editUsadoModelo').value,
-                year: parseInt(document.getElementById('editUsadoYear').value),
-                km: document.getElementById('editUsadoKm').value,
-                price: document.getElementById('editUsadoPrice').value,
-                description: document.getElementById('editUsadoDesc').value,
-                image: img ? img.src : null
-            };
+            var id = document.getElementById('editUsadoId').value;
+            var images = []; for (var i = 0; i < currentUsadoImages.length; i++) if (currentUsadoImages[i]) images.push(currentUsadoImages[i]);
+            var data = { brand: document.getElementById('editUsadoBrand').value, modelo: document.getElementById('editUsadoModelo').value, year: parseInt(document.getElementById('editUsadoYear').value) || 2020, km: document.getElementById('editUsadoKm').value, price: document.getElementById('editUsadoPrice').value, description: document.getElementById('editUsadoDescription').value, image: images[0] || '', images: images };
             try {
-                if (id) await api(`/vehicles/usados/${id}`, { method: 'PUT', body: JSON.stringify(data) });
-                else await api('/vehicles/usados', { method: 'POST', body: JSON.stringify(data) });
-                closeModal('modalUsado');
-                await loadData();
-                showToast(id ? 'Actualizado' : 'Agregado', 'success');
-            } catch (err) { showToast(err.message, 'error'); }
+                if (id) await api('/vehicles/usados/' + id, { method: 'PUT', body: data });
+                else await api('/vehicles/usados', { method: 'POST', body: data });
+                closeModal('modalUsado'); showToast('Guardado', 'success'); loadData();
+            } catch (err) { showToast('Error', 'error'); }
         }
 
-        function confirmDeleteUsado(id) { if (confirm('¿Eliminar este vehículo?')) deleteUsado(id); }
-        async function deleteUsado(id = null) {
-            const delId = id || document.getElementById('editUsadoId').value;
-            try {
-                await api(`/vehicles/usados/${delId}`, { method: 'DELETE' });
-                closeModal('modalUsado');
-                await loadData();
-                showToast('Eliminado', 'success');
-            } catch (err) { showToast(err.message, 'error'); }
-        }
+        async function deleteUsado(id) { if (!confirm('¿Eliminar?')) return; try { await api('/vehicles/usados/' + id, { method: 'DELETE' }); showToast('Eliminado', 'success'); loadData(); } catch (err) { showToast('Error', 'error'); } }
 
-        // Users
-        function renderUsersTable() {
-            document.getElementById('tableUsuarios').innerHTML = users.map(u => `
-                <tr>
-                    <td><div class="vehicle-cell"><div class="user-avatar">${u.name.charAt(0)}</div><div><strong>${u.username}</strong></div></div></td>
-                    <td>${u.name}</td>
-                    <td><span class="badge ${u.role === 'superadmin' ? 'badge-superadmin' : 'badge-admin'}">${u.role.toUpperCase()}</span></td>
-                    <td><button class="btn-icon btn-edit" onclick="editUser(${u.id})">✏️</button>${u.username !== 'Luca.Caorsi' ? `<button class="btn-icon btn-delete" onclick="confirmDeleteUser(${u.id})">🗑️</button>` : ''}</td>
-                </tr>
-            `).join('');
-        }
+        function openUserModal() { document.getElementById('modalUserTitle').textContent = 'Agregar Usuario'; document.getElementById('editUserId').value = ''; document.getElementById('editUserUsername').value = ''; document.getElementById('editUserName').value = ''; document.getElementById('editUserPassword').value = ''; document.getElementById('editUserRole').value = 'admin'; document.getElementById('modalUser').className = 'modal active'; }
 
-        function openUserModal(id = null) {
-            document.getElementById('editUserId').value = id || '';
-            document.getElementById('modalUserTitle').textContent = id ? 'Editar Usuario' : 'Nuevo Usuario';
-            if (id) {
-                const u = users.find(x => x.id === id);
-                document.getElementById('editUserUsername').value = u.username;
-                document.getElementById('editUserName').value = u.name;
-                document.getElementById('editUserPass').value = '';
-                document.getElementById('editUserRole').value = u.role;
-            } else {
-                ['editUserUsername','editUserName','editUserPass'].forEach(id => document.getElementById(id).value = '');
-                document.getElementById('editUserRole').value = 'admin';
-            }
-            openModal('modalUser');
+        function editUser(id) {
+            var u = null; for (var i = 0; i < users.length; i++) if (users[i].id === id) { u = users[i]; break; }
+            if (!u) return;
+            document.getElementById('modalUserTitle').textContent = 'Editar Usuario';
+            document.getElementById('editUserId').value = u.id;
+            document.getElementById('editUserUsername').value = u.username;
+            document.getElementById('editUserName').value = u.name;
+            document.getElementById('editUserPassword').value = '';
+            document.getElementById('editUserRole').value = u.role;
+            document.getElementById('modalUser').className = 'modal active';
         }
-
-        function editUser(id) { openUserModal(id); }
 
         async function saveUser() {
-            const id = document.getElementById('editUserId').value;
-            const data = {
-                username: document.getElementById('editUserUsername').value,
-                name: document.getElementById('editUserName').value,
-                password: document.getElementById('editUserPass').value,
-                role: document.getElementById('editUserRole').value
-            };
-            if (!id && !data.password) { showToast('Contraseña requerida', 'error'); return; }
+            var id = document.getElementById('editUserId').value;
+            var data = { username: document.getElementById('editUserUsername').value, name: document.getElementById('editUserName').value, role: document.getElementById('editUserRole').value };
+            var pass = document.getElementById('editUserPassword').value;
+            if (pass) data.password = pass;
             try {
-                if (id) await api(`/users/${id}`, { method: 'PUT', body: JSON.stringify(data) });
-                else await api('/users', { method: 'POST', body: JSON.stringify(data) });
-                closeModal('modalUser');
-                await loadData();
-                showToast(id ? 'Actualizado' : 'Creado', 'success');
-            } catch (err) { showToast(err.message, 'error'); }
+                if (id) await api('/users/' + id, { method: 'PUT', body: data });
+                else { if (!pass) { showToast('Ingresá contraseña', 'error'); return; } await api('/users', { method: 'POST', body: data }); }
+                closeModal('modalUser'); showToast('Guardado', 'success'); loadData();
+            } catch (err) { showToast('Error', 'error'); }
         }
 
-        function confirmDeleteUser(id) { if (confirm('¿Eliminar usuario?')) deleteUser(id); }
-        async function deleteUser(id) {
-            try {
-                await api(`/users/${id}`, { method: 'DELETE' });
-                await loadData();
-                showToast('Eliminado', 'success');
-            } catch (err) { showToast(err.message, 'error'); }
-        }
+        async function deleteUser(id) { if (!confirm('¿Eliminar?')) return; try { await api('/users/' + id, { method: 'DELETE' }); showToast('Eliminado', 'success'); loadData(); } catch (err) { showToast('Error', 'error'); } }
 
-        // Config
-        async function saveConfig() {
-            try {
-                await api('/config', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        whatsapp: document.getElementById('configWhatsapp').value,
-                        telefono: document.getElementById('configTelefono').value,
-                        horarios: document.getElementById('configHorarios').value
-                    })
-                });
-                showToast('Configuración guardada', 'success');
-            } catch (err) { showToast(err.message, 'error'); }
-        }
+        async function saveConfig() { try { await api('/config', { method: 'POST', body: { whatsapp: document.getElementById('configWhatsapp').value, telefono: document.getElementById('configTelefono').value, horarios: document.getElementById('configHorarios').value } }); showToast('Guardado', 'success'); } catch (err) { showToast('Error', 'error'); } }
 
-        // Navigation
-        document.querySelectorAll('.sidebar-menu a').forEach(link => {
-            link.addEventListener('click', function(e) {
+        function closeModal(id) { document.getElementById(id).className = 'modal'; }
+
+        var menuLinks = document.querySelectorAll('.sidebar-menu a');
+        for (var i = 0; i < menuLinks.length; i++) {
+            menuLinks[i].onclick = function(e) {
                 e.preventDefault();
-                if (this.classList.contains('disabled')) return;
-                document.querySelectorAll('.sidebar-menu a').forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
-                document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-                document.getElementById('page' + this.dataset.page.charAt(0).toUpperCase() + this.dataset.page.slice(1)).classList.add('active');
-            });
-        });
-
-        // Utils
-        function openModal(id) { document.getElementById(id).classList.add('active'); }
-        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-        function showToast(msg, type = 'success') {
-            const toast = document.getElementById('toast');
-            toast.textContent = msg;
-            toast.className = 'toast ' + type + ' active';
-            setTimeout(() => toast.classList.remove('active'), 3000);
-        }
-        function previewImage(input, uploadId) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = e => {
-                    const upload = document.getElementById(uploadId);
-                    upload.innerHTML = `<img src="${e.target.result}">`;
-                    upload.classList.add('has-image');
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-        function resetImageUpload(id) {
-            const upload = document.getElementById(id);
-            upload.innerHTML = '<div class="placeholder"><div class="icon">📷</div><div>Click para subir</div></div>';
-            upload.classList.remove('has-image');
+                for (var j = 0; j < menuLinks.length; j++) menuLinks[j].className = '';
+                this.className = 'active';
+                var sections = document.querySelectorAll('.section');
+                for (var k = 0; k < sections.length; k++) sections[k].className = 'section';
+                var sectionId = 'section' + this.getAttribute('data-section').charAt(0).toUpperCase() + this.getAttribute('data-section').slice(1);
+                var section = document.getElementById(sectionId);
+                if (section) section.className = 'section active';
+            };
         }
 
-        // Init
-        if (token && currentUser) showAdminPanel();
+        if (token) { try { var payload = JSON.parse(atob(token.split('.')[1])); if (payload.exp * 1000 > Date.now()) { currentUser = payload; showAdmin(); } else logout(); } catch (e) { logout(); } }
     </script>
 </body>
 </html>
