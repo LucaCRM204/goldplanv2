@@ -188,6 +188,13 @@
                     <div class="form-group"><label>Teléfono</label><input type="text" id="configTelefono"></div>
                     <div class="form-group"><label>Horarios</label><input type="text" id="configHorarios"></div>
                     <button class="btn btn-primary" onclick="saveConfig()">Guardar</button>
+                    
+                    <hr style="margin: 2rem 0; border-color: var(--gray-dark);">
+                    
+                    <h3 style="margin-bottom: 1rem; color: var(--gold);">🚀 Optimización de Imágenes</h3>
+                    <p style="font-size: 0.85rem; color: var(--gray); margin-bottom: 1rem;">Migrar las imágenes existentes a Cloudinary para que carguen más rápido. Solo necesitás hacerlo una vez.</p>
+                    <button class="btn btn-secondary" onclick="migrateImages()" id="btnMigrate">Migrar Imágenes a Cloudinary</button>
+                    <p id="migrateStatus" style="font-size: 0.85rem; color: var(--green); margin-top: 0.5rem; display: none;"></p>
                 </div>
             </section>
         </main>
@@ -503,6 +510,29 @@
                 var section = document.getElementById(sectionId);
                 if (section) section.className = 'section active';
             };
+        }
+
+        async function migrateImages() {
+            var btn = document.getElementById('btnMigrate');
+            var status = document.getElementById('migrateStatus');
+            btn.disabled = true;
+            btn.textContent = 'Migrando... (puede tardar unos minutos)';
+            status.style.display = 'none';
+            try {
+                var result = await api('/migrate-images', { method: 'POST' });
+                status.style.display = 'block';
+                status.style.color = 'var(--green)';
+                status.textContent = '✅ Migración completada. ' + result.migrated + ' vehículos actualizados.';
+                btn.textContent = '✅ Migración Completa';
+                showToast('Imágenes migradas correctamente', 'success');
+                loadData();
+            } catch (err) {
+                status.style.display = 'block';
+                status.style.color = 'var(--red)';
+                status.textContent = '❌ Error: ' + err.message;
+                btn.textContent = 'Reintentar Migración';
+                btn.disabled = false;
+            }
         }
 
         if (token) { try { var payload = JSON.parse(atob(token.split('.')[1])); if (payload.exp * 1000 > Date.now()) { currentUser = payload; showAdmin(); } else logout(); } catch (e) { logout(); } }
