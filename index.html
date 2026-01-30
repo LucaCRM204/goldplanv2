@@ -70,6 +70,7 @@
         .vehicle-image img { width: 100%; height: 100%; object-fit: cover; }
         .vehicle-badge { position: absolute; top: 1rem; left: 1rem; padding: 0.5rem 1.2rem; background: var(--gold); color: var(--black); font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border-radius: 4px; }
         .vehicle-badge.usado { background: #3b82f6; color: white; }
+        .vehicle-images-count { position: absolute; bottom: 1rem; right: 1rem; padding: 0.4rem 0.8rem; background: rgba(0,0,0,0.7); color: white; font-size: 0.7rem; border-radius: 4px; }
         .vehicle-info { padding: 1.8rem; }
         .vehicle-brand { color: var(--gold); font-size: 0.75rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.5rem; }
         .vehicle-name { font-size: 1.15rem; font-weight: 600; margin-bottom: 1rem; line-height: 1.3; }
@@ -87,20 +88,34 @@
 
         .vehicle-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 2rem; opacity: 0; visibility: hidden; transition: all 0.4s; }
         .vehicle-modal.active { opacity: 1; visibility: visible; }
-        .modal-content { background: var(--black-light); border: 1px solid var(--gray-dark); border-radius: 20px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; transform: scale(0.8); transition: transform 0.4s; }
+        .modal-content { background: var(--black-light); border: 1px solid var(--gray-dark); border-radius: 20px; max-width: 650px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; transform: scale(0.8); transition: transform 0.4s; }
         .vehicle-modal.active .modal-content { transform: scale(1); }
         .modal-close { position: absolute; top: 1rem; right: 1rem; width: 45px; height: 45px; background: var(--black-lighter); border: 1px solid var(--gray-dark); border-radius: 50%; color: var(--white); font-size: 1.5rem; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
         .modal-close:hover { background: var(--gold); color: var(--black); }
-        .modal-image { height: 280px; background: linear-gradient(135deg, var(--black-lighter), var(--black)); display: flex; align-items: center; justify-content: center; font-size: 6rem; border-radius: 20px 20px 0 0; position: relative; overflow: hidden; }
-        .modal-image img { width: 100%; height: 100%; object-fit: cover; }
-        .modal-badge { position: absolute; top: 1rem; left: 1rem; padding: 0.6rem 1.5rem; background: var(--gold); color: var(--black); font-size: 0.8rem; font-weight: 700; border-radius: 6px; }
+        
+        /* Carrusel de imágenes */
+        .modal-carousel { position: relative; height: 320px; background: linear-gradient(135deg, var(--black-lighter), var(--black)); border-radius: 20px 20px 0 0; overflow: hidden; }
+        .carousel-images { display: flex; height: 100%; transition: transform 0.4s ease; }
+        .carousel-images img { min-width: 100%; height: 100%; object-fit: cover; }
+        .carousel-placeholder { min-width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 6rem; }
+        .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 45px; height: 45px; background: rgba(0,0,0,0.7); border: none; border-radius: 50%; color: white; font-size: 1.2rem; cursor: pointer; transition: all 0.3s; z-index: 5; }
+        .carousel-btn:hover { background: var(--gold); color: var(--black); }
+        .carousel-btn.prev { left: 1rem; }
+        .carousel-btn.next { right: 1rem; }
+        .carousel-btn.hidden { display: none; }
+        .carousel-dots { position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%); display: flex; gap: 0.5rem; z-index: 5; }
+        .carousel-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: all 0.3s; }
+        .carousel-dot.active { background: var(--gold); transform: scale(1.2); }
+        .carousel-counter { position: absolute; top: 1rem; right: 1rem; background: rgba(0,0,0,0.7); padding: 0.4rem 0.8rem; border-radius: 4px; font-size: 0.8rem; z-index: 5; }
+        .modal-badge { position: absolute; top: 1rem; left: 1rem; padding: 0.6rem 1.5rem; background: var(--gold); color: var(--black); font-size: 0.8rem; font-weight: 700; border-radius: 6px; z-index: 5; }
         .modal-badge.usado { background: #3b82f6; color: white; }
+        
         .modal-body { padding: 2rem; }
         .modal-brand { color: var(--gold); font-size: 0.85rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.5rem; display: block; }
         .modal-name { font-size: 2rem; font-weight: 700; margin-bottom: 1rem; }
         .modal-price { font-size: 2.2rem; font-weight: 800; color: var(--gold); }
         .modal-price small { display: block; font-size: 0.85rem; color: var(--gray); font-weight: 400; }
-        .modal-description { color: var(--gray); font-size: 0.95rem; line-height: 1.8; margin: 1.5rem 0; padding: 1.5rem; background: var(--black-lighter); border-radius: 12px; border-left: 4px solid var(--gold); }
+        .modal-description { color: var(--gray); font-size: 0.95rem; line-height: 1.8; margin: 1.5rem 0; padding: 1.5rem; background: var(--black-lighter); border-radius: 12px; border-left: 4px solid var(--gold); max-height: 200px; overflow-y: auto; }
         .modal-plan { background: rgba(212,175,55,0.1); border: 1px solid rgba(212,175,55,0.3); padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem; }
         .modal-plan-title { font-size: 0.95rem; color: var(--gold); font-weight: 600; margin-bottom: 1rem; }
         .modal-plan-row { display: flex; justify-content: space-between; font-size: 0.95rem; margin-bottom: 0.5rem; }
@@ -160,6 +175,7 @@
             .filters-bar { flex-direction: column; }
             .brand-filters, .sort-filters { justify-content: center; }
             .footer-content { flex-direction: column; text-align: center; }
+            .modal-carousel { height: 250px; }
         }
     </style>
 </head>
@@ -226,14 +242,16 @@
                 <button class="sort-btn" data-type="usado">Usados</button>
             </div>
         </div>
-        <div class="vehicles-grid" id="vehiclesGrid"><div class="no-vehicles"><div class="icon">⏳</div><p>Cargando vehículos...</p></div></div>
+        <div class="vehicles-grid" id="vehiclesGrid">
+            <div class="no-vehicles"><div class="icon">⏳</div><p>Cargando vehículos...</p></div>
+        </div>
     </section>
 
     <section class="vende-section" id="vende">
         <div class="vende-content">
-            <h2>Vendé tu auto con GoldPlan</h2>
-            <p>Lo tasamos en minutos y lo publicamos por vos. Intermediación segura y transparente.</p>
-            <a href="https://wa.me/5491178574747?text=Hola! Quiero cotizar mi usado" class="vende-btn">Cotizá tu usado →</a>
+            <h2>¿Querés vender tu auto?</h2>
+            <p>Tasamos tu vehículo al mejor precio del mercado. Recibimos autos usados como parte de pago para tu nuevo 0KM.</p>
+            <a href="https://wa.me/5491178574747?text=Hola!%20Quiero%20vender%20mi%20auto" class="vende-btn">Tasar mi Auto</a>
         </div>
         <div class="vende-image"></div>
     </section>
@@ -241,21 +259,39 @@
     <section class="contact-section" id="contacto">
         <div class="contact-info">
             <h2>Contactanos</h2>
-            <div class="contact-item"><div class="contact-icon">📱</div><div><h4>WhatsApp</h4><a href="https://wa.me/5491178574747" id="contactWhatsapp">+54 9 11 7857-4747</a></div></div>
-            <div class="contact-item"><div class="contact-icon">📞</div><div><h4>Teléfono</h4><a href="tel:+5491178574747" id="contactTelefono">+54 9 11 7857-4747</a></div></div>
-            <div class="contact-item"><div class="contact-icon">🕐</div><div><h4>Horarios</h4><p id="contactHorarios">Lunes a Sábados: 09:30 a 19:00hs</p></div></div>
-            <div class="contact-item"><div class="contact-icon">📍</div><div><h4>Sucursales</h4><p>GoldPlan S.A - Principal<br>GoldPlan | Auto del Sol</p></div></div>
+            <div class="contact-item">
+                <div class="contact-icon">📱</div>
+                <div><h4>WhatsApp</h4><a href="https://wa.me/5491178574747" id="contactWhatsapp">+54 9 11 7857-4747</a></div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">📞</div>
+                <div><h4>Teléfono</h4><a href="tel:+5491178574747" id="contactTelefono">+54 9 11 7857-4747</a></div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">🕐</div>
+                <div><h4>Horarios</h4><p id="contactHorarios">Lunes a Sábados: 09:30 a 19:00hs</p></div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">📍</div>
+                <div><h4>Sucursales</h4><p>GoldPlan S.A - Principal<br>GoldPlan Mitre</p></div>
+            </div>
         </div>
         <div class="contact-maps">
-            <div class="map-container"><iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d26317.603314802745!2d-58.8952851!3d-34.459752!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccb482a291645%3A0x960c1b483bf0703f!2sGoldplan%20S.A!5e0!3m2!1ses-419!2sar" allowfullscreen="" loading="lazy"></iframe><div class="map-label">📍 GoldPlan S.A</div></div>
-            <div class="map-container"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3286.336082510832!2d-58.5018579!3d-34.545045099999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb7004c5f7fa3%3A0x50847cb236aa266b!2sGOLDPLAN%20%7CAUTO%20DEL%20SOL%7C!5e0!3m2!1ses-419!2sar" allowfullscreen="" loading="lazy"></iframe><div class="map-label">📍 Auto del Sol</div></div>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d26317.603314802745!2d-58.8952851!3d-34.459752!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccb482a291645%3A0x960c1b483bf0703f!2sGoldplan%20S.A!5e0!3m2!1ses-419!2sar" allowfullscreen loading="lazy"></iframe>
+                <div class="map-label">📍 GoldPlan S.A</div>
+            </div>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3286.336082510832!2d-58.5018579!3d-34.545045099999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb7004c5f7fa3%3A0x50847cb236aa266b!2sGOLDPLAN%20%7CAUTO%20DEL%20SOL%7C!5e0!3m2!1ses-419!2sar" allowfullscreen loading="lazy"></iframe>
+                <div class="map-label">📍 GoldPlan Mitre</div>
+            </div>
         </div>
     </section>
 
     <footer class="footer">
         <div class="footer-content">
-            <div class="footer-logo"><span>GoldPlan</span></div>
-            <p>© 2026 GoldPlan Automotores. Todos los derechos reservados.</p>
+            <div class="footer-logo"><span>GoldPlan Automotores</span></div>
+            <p>© 2026 Todos los derechos reservados</p>
         </div>
     </footer>
 
@@ -264,14 +300,21 @@
     <div class="vehicle-modal" id="vehicleModal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal()">✕</button>
-            <div class="modal-image" id="modalImage"></div>
+            <div class="modal-carousel" id="modalCarousel">
+                <div class="carousel-images" id="carouselImages"></div>
+                <button class="carousel-btn prev" id="carouselPrev" onclick="prevImage()">❮</button>
+                <button class="carousel-btn next" id="carouselNext" onclick="nextImage()">❯</button>
+                <div class="carousel-dots" id="carouselDots"></div>
+                <div class="carousel-counter" id="carouselCounter">1 / 1</div>
+                <span class="modal-badge" id="modalBadge">0KM</span>
+            </div>
             <div class="modal-body">
                 <span class="modal-brand" id="modalBrand"></span>
                 <h2 class="modal-name" id="modalName"></h2>
                 <div class="modal-price" id="modalPrice"></div>
                 <div class="modal-description" id="modalDescription"></div>
                 <div class="modal-plan" id="modalPlan"></div>
-                <button class="modal-btn" onclick="consultarWhatsApp()">💬 CONSULTAR POR WHATSAPP</button>
+                <button class="modal-btn" onclick="consultarWhatsApp()">📱 Consultar por WhatsApp</button>
             </div>
         </div>
     </div>
@@ -280,23 +323,20 @@
         var API_URL = 'https://goldplan-production.up.railway.app/api';
         var vehicles0km = [];
         var vehiclesUsados = [];
-        var currentVehicle = null;
-        var currentVehicleType = null;
         var curBrand = 'todos';
         var curType = 'todos';
+        var currentVehicle = '';
+        var currentVehicleType = '';
+        var currentImages = [];
+        var currentImageIndex = 0;
 
         function loadData() {
             Promise.all([
                 fetch(API_URL + '/vehicles/0km').then(function(r) { return r.json(); }),
-                fetch(API_URL + '/vehicles/usados').then(function(r) { return r.json(); }),
-                fetch(API_URL + '/config').then(function(r) { return r.json(); })
-            ]).then(function(results) {
-                vehicles0km = results[0];
-                vehiclesUsados = results[1];
-                var config = results[2];
-                if (config.whatsapp) document.getElementById('contactWhatsapp').textContent = config.whatsapp;
-                if (config.telefono) document.getElementById('contactTelefono').textContent = config.telefono;
-                if (config.horarios) document.getElementById('contactHorarios').textContent = config.horarios;
+                fetch(API_URL + '/vehicles/usados').then(function(r) { return r.json(); })
+            ]).then(function(data) {
+                vehicles0km = data[0];
+                vehiclesUsados = data[1];
                 renderVehicles();
             }).catch(function(err) {
                 console.error('Error:', err);
@@ -313,7 +353,9 @@
                 for (i = 0; i < vehicles0km.length; i++) {
                     var v = vehicles0km[i];
                     if (curBrand === 'todos' || v.brand === curBrand) {
-                        all.push({id: v.id, brand: v.brand, name: v.name, price: v.price, plan: v.plan, anticipo: v.anticipo, cuota: v.cuota, description: v.description, image: v.image, type: '0km'});
+                        var imgs = v.images || [];
+                        var mainImg = imgs.length > 0 ? imgs[0] : (v.image || '');
+                        all.push({id: v.id, brand: v.brand, name: v.name, price: v.price, plan: v.plan, anticipo: v.anticipo, cuota: v.cuota, description: v.description, image: mainImg, images: imgs, type: '0km'});
                     }
                 }
             }
@@ -322,7 +364,9 @@
                 for (i = 0; i < vehiclesUsados.length; i++) {
                     var u = vehiclesUsados[i];
                     if (curBrand === 'todos' || u.brand === curBrand) {
-                        all.push({id: u.id, brand: u.brand, modelo: u.modelo, year: u.year, km: u.km, price: u.price, description: u.description, image: u.image, type: 'usado'});
+                        var uimgs = u.images || [];
+                        var umainImg = uimgs.length > 0 ? uimgs[0] : (u.image || '');
+                        all.push({id: u.id, brand: u.brand, modelo: u.modelo, year: u.year, km: u.km, price: u.price, description: u.description, image: umainImg, images: uimgs, type: 'usado'});
                     }
                 }
             }
@@ -335,10 +379,11 @@
             var html = '';
             for (i = 0; i < all.length; i++) {
                 var item = all[i];
+                var imgCount = item.images && item.images.length > 1 ? '<span class="vehicle-images-count">📷 ' + item.images.length + '</span>' : '';
                 if (item.type === '0km') {
-                    html += '<div class="vehicle-card" data-id="' + item.id + '" data-type="0km"><div class="vehicle-image">' + (item.image ? '<img src="' + item.image + '">' : '🚗') + '<span class="vehicle-badge">0KM</span></div><div class="vehicle-info"><span class="vehicle-brand">' + item.brand + '</span><h3 class="vehicle-name">' + item.name + '</h3><div class="vehicle-price">' + item.price + '<small>Valor móvil</small></div><div class="vehicle-plan"><div class="plan-title">Plan ' + item.plan + '</div><div class="plan-row"><span>Anticipo</span><strong>' + item.anticipo + '</strong></div><div class="plan-row"><span>Cuota</span><strong>' + item.cuota + '</strong></div></div><button class="vehicle-btn">VER DETALLES</button></div></div>';
+                    html += '<div class="vehicle-card" data-id="' + item.id + '" data-type="0km"><div class="vehicle-image">' + (item.image ? '<img src="' + item.image + '">' : '🚗') + '<span class="vehicle-badge">0KM</span>' + imgCount + '</div><div class="vehicle-info"><span class="vehicle-brand">' + item.brand + '</span><h3 class="vehicle-name">' + item.name + '</h3><div class="vehicle-price">' + item.price + '<small>Valor móvil</small></div><div class="vehicle-plan"><div class="plan-title">Plan ' + item.plan + '</div><div class="plan-row"><span>Anticipo</span><strong>' + item.anticipo + '</strong></div><div class="plan-row"><span>Cuota</span><strong>' + item.cuota + '</strong></div></div><button class="vehicle-btn">VER DETALLES</button></div></div>';
                 } else {
-                    html += '<div class="vehicle-card" data-id="' + item.id + '" data-type="usado"><div class="vehicle-image">' + (item.image ? '<img src="' + item.image + '">' : '🚙') + '<span class="vehicle-badge usado">USADO</span></div><div class="vehicle-info"><span class="vehicle-brand">' + item.brand + '</span><h3 class="vehicle-name">' + item.modelo + '</h3><div class="vehicle-price">' + item.price + '<small>Precio contado</small></div><div class="vehicle-plan usado-info"><div class="plan-title">Información</div><div class="plan-row"><span>Año</span><strong>' + item.year + '</strong></div><div class="plan-row"><span>Km</span><strong>' + item.km + '</strong></div></div><button class="vehicle-btn">VER DETALLES</button></div></div>';
+                    html += '<div class="vehicle-card" data-id="' + item.id + '" data-type="usado"><div class="vehicle-image">' + (item.image ? '<img src="' + item.image + '">' : '🚙') + '<span class="vehicle-badge usado">USADO</span>' + imgCount + '</div><div class="vehicle-info"><span class="vehicle-brand">' + item.brand + '</span><h3 class="vehicle-name">' + item.modelo + '</h3><div class="vehicle-price">' + item.price + '<small>Precio contado</small></div><div class="vehicle-plan usado-info"><div class="plan-title">Información</div><div class="plan-row"><span>Año</span><strong>' + item.year + '</strong></div><div class="plan-row"><span>Km</span><strong>' + item.km + '</strong></div></div><button class="vehicle-btn">VER DETALLES</button></div></div>';
                 }
             }
             grid.innerHTML = html;
@@ -369,7 +414,15 @@
             currentVehicle = v.name || v.modelo;
             currentVehicleType = type;
 
-            document.getElementById('modalImage').innerHTML = (v.image ? '<img src="' + v.image + '">' : (type === '0km' ? '🚗' : '🚙')) + '<span class="modal-badge' + (type === 'usado' ? ' usado' : '') + '">' + (type === '0km' ? '0KM' : 'USADO') + '</span>';
+            // Configurar carrusel
+            currentImages = v.images && v.images.length > 0 ? v.images : (v.image ? [v.image] : []);
+            currentImageIndex = 0;
+            renderCarousel();
+
+            // Badge
+            document.getElementById('modalBadge').className = 'modal-badge' + (type === 'usado' ? ' usado' : '');
+            document.getElementById('modalBadge').textContent = type === '0km' ? '0KM' : 'USADO';
+
             document.getElementById('modalBrand').textContent = v.brand;
             document.getElementById('modalName').textContent = v.name || v.modelo;
             document.getElementById('modalPrice').innerHTML = v.price + '<small>' + (type === '0km' ? 'Valor móvil' : 'Precio contado') + '</small>';
@@ -389,6 +442,78 @@
             document.body.style.overflow = 'hidden';
         }
 
+        function renderCarousel() {
+            var imagesContainer = document.getElementById('carouselImages');
+            var dotsContainer = document.getElementById('carouselDots');
+            var counter = document.getElementById('carouselCounter');
+            var prevBtn = document.getElementById('carouselPrev');
+            var nextBtn = document.getElementById('carouselNext');
+
+            if (currentImages.length === 0) {
+                imagesContainer.innerHTML = '<div class="carousel-placeholder">' + (currentVehicleType === '0km' ? '🚗' : '🚙') + '</div>';
+                dotsContainer.innerHTML = '';
+                counter.style.display = 'none';
+                prevBtn.className = 'carousel-btn prev hidden';
+                nextBtn.className = 'carousel-btn next hidden';
+                return;
+            }
+
+            var html = '';
+            var dotsHtml = '';
+            for (var i = 0; i < currentImages.length; i++) {
+                html += '<img src="' + currentImages[i] + '" alt="Foto ' + (i + 1) + '">';
+                dotsHtml += '<div class="carousel-dot' + (i === 0 ? ' active' : '') + '" data-index="' + i + '"></div>';
+            }
+            imagesContainer.innerHTML = html;
+            dotsContainer.innerHTML = dotsHtml;
+            
+            counter.textContent = '1 / ' + currentImages.length;
+            counter.style.display = currentImages.length > 1 ? 'block' : 'none';
+            
+            prevBtn.className = 'carousel-btn prev' + (currentImages.length <= 1 ? ' hidden' : '');
+            nextBtn.className = 'carousel-btn next' + (currentImages.length <= 1 ? ' hidden' : '');
+
+            // Dots click
+            var dots = document.querySelectorAll('.carousel-dot');
+            for (var j = 0; j < dots.length; j++) {
+                dots[j].onclick = function() {
+                    goToImage(parseInt(this.getAttribute('data-index')));
+                };
+            }
+            
+            updateCarousel();
+        }
+
+        function updateCarousel() {
+            var imagesContainer = document.getElementById('carouselImages');
+            var counter = document.getElementById('carouselCounter');
+            var dots = document.querySelectorAll('.carousel-dot');
+            
+            imagesContainer.style.transform = 'translateX(-' + (currentImageIndex * 100) + '%)';
+            counter.textContent = (currentImageIndex + 1) + ' / ' + currentImages.length;
+            
+            for (var i = 0; i < dots.length; i++) {
+                dots[i].className = 'carousel-dot' + (i === currentImageIndex ? ' active' : '');
+            }
+        }
+
+        function prevImage() {
+            if (currentImages.length <= 1) return;
+            currentImageIndex = (currentImageIndex - 1 + currentImages.length) % currentImages.length;
+            updateCarousel();
+        }
+
+        function nextImage() {
+            if (currentImages.length <= 1) return;
+            currentImageIndex = (currentImageIndex + 1) % currentImages.length;
+            updateCarousel();
+        }
+
+        function goToImage(index) {
+            currentImageIndex = index;
+            updateCarousel();
+        }
+
         function closeModal() {
             document.getElementById('vehicleModal').className = 'vehicle-modal';
             document.body.style.overflow = '';
@@ -399,7 +524,11 @@
         }
 
         document.getElementById('vehicleModal').onclick = function(e) { if (e.target.id === 'vehicleModal') closeModal(); };
-        document.onkeydown = function(e) { if (e.key === 'Escape') closeModal(); };
+        document.onkeydown = function(e) { 
+            if (e.key === 'Escape') closeModal(); 
+            if (e.key === 'ArrowLeft') prevImage();
+            if (e.key === 'ArrowRight') nextImage();
+        };
         window.onscroll = function() { document.getElementById('navbar').className = window.scrollY > 50 ? 'navbar scrolled' : 'navbar'; };
         document.getElementById('menuToggle').onclick = function() { document.getElementById('mobileMenu').className = 'mobile-menu active'; };
         document.getElementById('mobileClose').onclick = function() { document.getElementById('mobileMenu').className = 'mobile-menu'; };
