@@ -94,20 +94,23 @@
         .modal-close:hover { background: var(--gold); color: var(--black); }
         
         /* Carrusel de imágenes - lado izquierdo */
-        .modal-carousel { position: relative; height: 100%; min-height: 520px; background: linear-gradient(135deg, var(--black-lighter), var(--black)); overflow: hidden; border-radius: 20px 0 0 20px; }
-        .carousel-images { display: flex; height: 100%; transition: transform 0.4s ease; }
-        .carousel-images img { min-width: 100%; height: 100%; object-fit: contain; background: var(--black); }
+        .modal-carousel { position: relative; height: 100%; min-height: 520px; background: var(--black); overflow: hidden; border-radius: 20px 0 0 20px; display: flex; flex-direction: column; }
+        .carousel-logo { padding: 0.8rem; text-align: center; background: linear-gradient(180deg, rgba(20,20,20,1) 0%, rgba(10,10,10,1) 100%); flex-shrink: 0; }
+        .carousel-logo span { color: var(--gold); font-size: 1.1rem; font-weight: 700; letter-spacing: 3px; text-shadow: 0 0 10px rgba(212,175,55,0.3); }
+        .carousel-wrapper { flex: 1; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%); }
+        .carousel-images { display: flex; height: 100%; width: 100%; transition: transform 0.4s ease; }
+        .carousel-images img { min-width: 100%; height: 100%; object-fit: contain; }
         .carousel-placeholder { min-width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 5rem; }
         .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; background: rgba(0,0,0,0.7); border: none; border-radius: 50%; color: white; font-size: 1rem; cursor: pointer; transition: all 0.3s; z-index: 5; }
         .carousel-btn:hover { background: var(--gold); color: var(--black); }
         .carousel-btn.prev { left: 0.8rem; }
         .carousel-btn.next { right: 0.8rem; }
         .carousel-btn.hidden { display: none; }
-        .carousel-dots { position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%); display: flex; gap: 0.4rem; z-index: 5; }
+        .carousel-dots { position: absolute; bottom: 0.5rem; left: 50%; transform: translateX(-50%); display: flex; gap: 0.4rem; z-index: 5; }
         .carousel-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: all 0.3s; }
         .carousel-dot.active { background: var(--gold); transform: scale(1.2); }
-        .carousel-counter { position: absolute; top: 1rem; left: 1rem; background: rgba(0,0,0,0.7); padding: 0.3rem 0.6rem; border-radius: 4px; font-size: 0.75rem; z-index: 5; }
-        .modal-badge { position: absolute; bottom: 1rem; left: 1rem; padding: 0.5rem 1rem; background: var(--gold); color: var(--black); font-size: 0.75rem; font-weight: 700; border-radius: 6px; z-index: 5; }
+        .carousel-counter { position: absolute; top: 0.5rem; left: 0.8rem; background: rgba(0,0,0,0.7); padding: 0.3rem 0.6rem; border-radius: 4px; font-size: 0.75rem; z-index: 5; }
+        .modal-badge { position: absolute; top: 0.5rem; right: 0.8rem; padding: 0.4rem 0.8rem; background: var(--gold); color: var(--black); font-size: 0.7rem; font-weight: 700; border-radius: 4px; z-index: 5; }
         .modal-badge.usado { background: #3b82f6; color: white; }
         
         /* Info - lado derecho */
@@ -311,12 +314,16 @@
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal()">✕</button>
             <div class="modal-carousel" id="modalCarousel">
-                <div class="carousel-images" id="carouselImages"></div>
-                <button class="carousel-btn prev" id="carouselPrev" onclick="prevImage()">❮</button>
-                <button class="carousel-btn next" id="carouselNext" onclick="nextImage()">❯</button>
-                <div class="carousel-dots" id="carouselDots"></div>
-                <div class="carousel-counter" id="carouselCounter">1 / 1</div>
-                <span class="modal-badge" id="modalBadge">0KM</span>
+                <div class="carousel-logo"><span>★ GOLDPLAN ★</span></div>
+                <div class="carousel-wrapper">
+                    <div class="carousel-images" id="carouselImages"></div>
+                    <button class="carousel-btn prev" id="carouselPrev" onclick="prevImage()">❮</button>
+                    <button class="carousel-btn next" id="carouselNext" onclick="nextImage()">❯</button>
+                    <div class="carousel-dots" id="carouselDots"></div>
+                    <div class="carousel-counter" id="carouselCounter">1 / 1</div>
+                    <span class="modal-badge" id="modalBadge">0KM</span>
+                </div>
+                <div class="carousel-logo"><span>★ GOLDPLAN ★</span></div>
             </div>
             <div class="modal-body">
                 <span class="modal-brand" id="modalBrand"></span>
