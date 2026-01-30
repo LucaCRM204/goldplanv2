@@ -86,43 +86,53 @@
         .vehicle-btn { width: 100%; margin-top: 1.2rem; padding: 1rem; background: transparent; border: 2px solid var(--gold); color: var(--gold); font-family: 'Poppins', sans-serif; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.4s; border-radius: 8px; }
         .vehicle-btn:hover { background: var(--gold); color: var(--black); }
 
-        .vehicle-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 2rem; opacity: 0; visibility: hidden; transition: all 0.4s; }
+        .vehicle-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: all 0.4s; }
         .vehicle-modal.active { opacity: 1; visibility: visible; }
-        .modal-content { background: var(--black-light); border: 1px solid var(--gray-dark); border-radius: 20px; max-width: 650px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; transform: scale(0.8); transition: transform 0.4s; }
+        .modal-content { background: var(--black-light); border: 1px solid var(--gray-dark); border-radius: 20px; max-width: 900px; width: 100%; max-height: 95vh; overflow: hidden; position: relative; transform: scale(0.8); transition: transform 0.4s; display: grid; grid-template-columns: 1fr 1fr; }
         .vehicle-modal.active .modal-content { transform: scale(1); }
-        .modal-close { position: absolute; top: 1rem; right: 1rem; width: 45px; height: 45px; background: var(--black-lighter); border: 1px solid var(--gray-dark); border-radius: 50%; color: var(--white); font-size: 1.5rem; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
+        .modal-close { position: absolute; top: 1rem; right: 1rem; width: 40px; height: 40px; background: rgba(0,0,0,0.7); border: 1px solid var(--gray-dark); border-radius: 50%; color: var(--white); font-size: 1.3rem; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
         .modal-close:hover { background: var(--gold); color: var(--black); }
         
-        /* Carrusel de imágenes */
-        .modal-carousel { position: relative; height: 320px; background: linear-gradient(135deg, var(--black-lighter), var(--black)); border-radius: 20px 20px 0 0; overflow: hidden; }
+        /* Carrusel de imágenes - lado izquierdo */
+        .modal-carousel { position: relative; height: 100%; min-height: 450px; background: linear-gradient(135deg, var(--black-lighter), var(--black)); overflow: hidden; border-radius: 20px 0 0 20px; }
         .carousel-images { display: flex; height: 100%; transition: transform 0.4s ease; }
         .carousel-images img { min-width: 100%; height: 100%; object-fit: cover; }
-        .carousel-placeholder { min-width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 6rem; }
-        .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 45px; height: 45px; background: rgba(0,0,0,0.7); border: none; border-radius: 50%; color: white; font-size: 1.2rem; cursor: pointer; transition: all 0.3s; z-index: 5; }
+        .carousel-placeholder { min-width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 5rem; }
+        .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; background: rgba(0,0,0,0.7); border: none; border-radius: 50%; color: white; font-size: 1rem; cursor: pointer; transition: all 0.3s; z-index: 5; }
         .carousel-btn:hover { background: var(--gold); color: var(--black); }
-        .carousel-btn.prev { left: 1rem; }
-        .carousel-btn.next { right: 1rem; }
+        .carousel-btn.prev { left: 0.8rem; }
+        .carousel-btn.next { right: 0.8rem; }
         .carousel-btn.hidden { display: none; }
-        .carousel-dots { position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%); display: flex; gap: 0.5rem; z-index: 5; }
-        .carousel-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: all 0.3s; }
+        .carousel-dots { position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%); display: flex; gap: 0.4rem; z-index: 5; }
+        .carousel-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: all 0.3s; }
         .carousel-dot.active { background: var(--gold); transform: scale(1.2); }
-        .carousel-counter { position: absolute; top: 1rem; right: 1rem; background: rgba(0,0,0,0.7); padding: 0.4rem 0.8rem; border-radius: 4px; font-size: 0.8rem; z-index: 5; }
-        .modal-badge { position: absolute; top: 1rem; left: 1rem; padding: 0.6rem 1.5rem; background: var(--gold); color: var(--black); font-size: 0.8rem; font-weight: 700; border-radius: 6px; z-index: 5; }
+        .carousel-counter { position: absolute; top: 1rem; left: 1rem; background: rgba(0,0,0,0.7); padding: 0.3rem 0.6rem; border-radius: 4px; font-size: 0.75rem; z-index: 5; }
+        .modal-badge { position: absolute; bottom: 1rem; left: 1rem; padding: 0.5rem 1rem; background: var(--gold); color: var(--black); font-size: 0.75rem; font-weight: 700; border-radius: 6px; z-index: 5; }
         .modal-badge.usado { background: #3b82f6; color: white; }
         
-        .modal-body { padding: 2rem; }
-        .modal-brand { color: var(--gold); font-size: 0.85rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.5rem; display: block; }
-        .modal-name { font-size: 2rem; font-weight: 700; margin-bottom: 1rem; }
-        .modal-price { font-size: 2.2rem; font-weight: 800; color: var(--gold); }
-        .modal-price small { display: block; font-size: 0.85rem; color: var(--gray); font-weight: 400; }
-        .modal-description { color: var(--gray); font-size: 0.95rem; line-height: 1.8; margin: 1.5rem 0; padding: 1.5rem; background: var(--black-lighter); border-radius: 12px; border-left: 4px solid var(--gold); max-height: 200px; overflow-y: auto; }
-        .modal-plan { background: rgba(212,175,55,0.1); border: 1px solid rgba(212,175,55,0.3); padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem; }
-        .modal-plan-title { font-size: 0.95rem; color: var(--gold); font-weight: 600; margin-bottom: 1rem; }
-        .modal-plan-row { display: flex; justify-content: space-between; font-size: 0.95rem; margin-bottom: 0.5rem; }
+        /* Info - lado derecho */
+        .modal-body { padding: 1.5rem; display: flex; flex-direction: column; overflow-y: auto; max-height: 95vh; }
+        .modal-header-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 0.5rem; }
+        .modal-brand { color: var(--gold); font-size: 0.75rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.3rem; display: block; }
+        .modal-name { font-size: 1.4rem; font-weight: 700; line-height: 1.2; }
+        .modal-btn { padding: 0.8rem 1.2rem; background: var(--gold); border: none; color: var(--black); font-family: 'Poppins', sans-serif; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.3s; border-radius: 8px; white-space: nowrap; flex-shrink: 0; }
+        .modal-btn:hover { background: var(--gold-dark); transform: scale(1.02); }
+        .modal-price { font-size: 1.8rem; font-weight: 800; color: var(--gold); margin: 0.8rem 0; }
+        .modal-price small { display: block; font-size: 0.75rem; color: var(--gray); font-weight: 400; }
+        .modal-plan { background: rgba(212,175,55,0.1); border: 1px solid rgba(212,175,55,0.3); padding: 1rem; border-radius: 10px; margin-bottom: 1rem; }
+        .modal-plan-title { font-size: 0.8rem; color: var(--gold); font-weight: 600; margin-bottom: 0.6rem; }
+        .modal-plan-row { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.3rem; }
         .modal-plan-row span { color: var(--gray); }
-        .modal-plan-row strong { color: var(--white); font-size: 1.1rem; }
-        .modal-btn { width: 100%; padding: 1.3rem; background: var(--gold); border: none; color: var(--black); font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.4s; border-radius: 10px; }
-        .modal-btn:hover { background: var(--gold-dark); }
+        .modal-plan-row strong { color: var(--white); }
+        .modal-description { color: var(--gray); font-size: 0.85rem; line-height: 1.7; padding: 1rem; background: var(--black-lighter); border-radius: 10px; border-left: 3px solid var(--gold); flex: 1; overflow-y: auto; }
+        
+        @media (max-width: 768px) {
+            .modal-content { grid-template-columns: 1fr; max-height: 95vh; }
+            .modal-carousel { min-height: 250px; border-radius: 20px 20px 0 0; }
+            .modal-body { max-height: none; }
+            .modal-header-row { flex-direction: column; }
+            .modal-btn { width: 100%; margin-top: 0.5rem; }
+        }
 
         .vende-section { background: var(--gold); padding: 8rem 5%; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
         .vende-content h2 { font-size: clamp(2.5rem, 4vw, 3.5rem); font-weight: 800; color: var(--black); margin-bottom: 1.5rem; }
@@ -310,11 +320,13 @@
             </div>
             <div class="modal-body">
                 <span class="modal-brand" id="modalBrand"></span>
-                <h2 class="modal-name" id="modalName"></h2>
+                <div class="modal-header-row">
+                    <h2 class="modal-name" id="modalName"></h2>
+                    <button class="modal-btn" onclick="consultarWhatsApp()">📱 Consultar</button>
+                </div>
                 <div class="modal-price" id="modalPrice"></div>
-                <div class="modal-description" id="modalDescription"></div>
                 <div class="modal-plan" id="modalPlan"></div>
-                <button class="modal-btn" onclick="consultarWhatsApp()">📱 Consultar por WhatsApp</button>
+                <div class="modal-description" id="modalDescription"></div>
             </div>
         </div>
     </div>
