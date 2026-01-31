@@ -27,28 +27,37 @@
         .menu-toggle span { width: 28px; height: 2px; background: var(--gold); }
 
         .hero { min-height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1920&q=80') center center/cover no-repeat; }
-        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(10,10,10,0.9) 0%, rgba(10,10,10,0.7) 50%, rgba(10,10,10,0.9) 100%); }
+        .hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=1920&q=80') center center/cover no-repeat; }
+        .hero-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.65); }
         .hero-content { position: relative; z-index: 10; text-align: center; max-width: 1000px; padding: 2rem; }
-        .hero-badge { display: inline-block; padding: 0.5rem 1.5rem; background: rgba(212,175,55,0.1); border: 1px solid var(--gold); border-radius: 50px; color: var(--gold); font-size: 0.8rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1.5rem; }
-        .hero-title { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 800; margin-bottom: 1.5rem; line-height: 1.1; }
-        .hero-title span { color: var(--gold); }
-        .hero-text { font-size: 1.05rem; line-height: 1.9; color: rgba(255,255,255,0.85); max-width: 800px; margin: 0 auto 2rem; }
-        .hero-text .gold { color: var(--gold); font-weight: 600; }
-        .hero-buttons { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; }
-        .btn { padding: 1.1rem 2.8rem; font-size: 0.9rem; font-weight: 600; text-decoration: none; border-radius: 4px; transition: all 0.4s; cursor: pointer; border: none; font-family: 'Poppins', sans-serif; }
-        .btn-primary { background: var(--gold); color: var(--black); }
-        .btn-primary:hover { background: var(--gold-dark); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(212,175,55,0.4); }
-        .btn-outline { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,0.5); }
-        .btn-outline:hover { background: var(--white); color: var(--black); }
-        .scroll-indicator { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; color: var(--gold); font-size: 0.7rem; letter-spacing: 3px; }
-        .scroll-indicator .mouse { width: 25px; height: 40px; border: 2px solid var(--gold); border-radius: 15px; }
+        .hero-logo { margin-bottom: 1rem; }
+        .hero-logo-text { font-size: 2rem; font-weight: 700; color: var(--gold); display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .hero-logo-icon { width: 50px; height: 50px; border: 3px solid var(--gold); border-radius: 4px; display: flex; align-items: center; justify-content: center; transform: rotate(-5deg); }
+        .hero-logo-icon span { font-size: 1.2rem; }
+        .hero-title { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 400; margin-bottom: 2rem; color: var(--white); }
+        .hero-description { font-size: 1.05rem; line-height: 2; color: var(--white); max-width: 850px; margin: 0 auto; text-align: center; }
+        .hero-description .highlight { background: linear-gradient(180deg, transparent 60%, rgba(59,130,246,0.6) 60%); }
+        .hero-description .gold { color: var(--gold); font-weight: 700; }
+        
+        .destacados-section { background: var(--black); padding: 3rem 5% 1rem; }
+        .destacados-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; }
+        .destacados-header h2 { font-size: 1.5rem; font-weight: 700; }
+        .destacados-filters { display: flex; gap: 1.5rem; align-items: center; }
+        .destacados-filter { color: var(--gray); font-size: 0.9rem; cursor: pointer; transition: all 0.3s; text-decoration: underline; text-underline-offset: 4px; background: none; border: none; font-family: 'Poppins', sans-serif; }
+        .destacados-filter:hover, .destacados-filter.active { color: var(--gold); }
+        .destacados-btn { padding: 0.6rem 1.5rem; background: transparent; border: 1px solid var(--gray); color: var(--white); border-radius: 20px; font-family: 'Poppins', sans-serif; cursor: pointer; transition: all 0.3s; font-size: 0.85rem; }
+        .destacados-btn:hover, .destacados-btn.active { border-color: var(--gold); background: var(--gold); color: var(--black); }
 
-        .brands-bar { background: linear-gradient(180deg, var(--black) 0%, var(--black-light) 100%); padding: 2rem 5%; border-bottom: 1px solid var(--gray-dark); }
-        .brands-container { display: flex; justify-content: center; align-items: center; gap: 4rem; flex-wrap: wrap; }
-        .brand-link { font-size: 1rem; font-weight: 700; letter-spacing: 2px; cursor: pointer; transition: all 0.4s; opacity: 0.6; }
-        .brand-link:hover { opacity: 1; transform: scale(1.1); }
-        .brand-link.vw { color: #00B0F0; } .brand-link.fiat { color: #DC0714; } .brand-link.peugeot { color: #00A3E0; } .brand-link.renault { color: #FFCC00; }
+        .brands-bar { background: var(--black); padding: 2rem 5%; text-align: center; border-bottom: 1px solid var(--gray-dark); }
+        .mostrar-todos-btn { padding: 1rem 3rem; background: transparent; border: 2px solid var(--gray-dark); color: var(--white); font-family: 'Poppins', sans-serif; font-size: 0.9rem; font-weight: 500; cursor: pointer; border-radius: 4px; transition: all 0.3s; }
+        .mostrar-todos-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+        .vende-section { background: var(--gold); padding: 5rem 5%; display: grid; grid-template-columns: 1fr 1.3fr; gap: 4rem; align-items: center; }
+        .vende-content h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; color: var(--black); margin-bottom: 1.2rem; line-height: 1.2; }
+        .vende-content p { font-size: 1rem; color: var(--black); opacity: 0.85; margin-bottom: 1.5rem; line-height: 1.7; font-style: italic; }
+        .vende-btn { display: inline-block; padding: 0.9rem 2rem; background: var(--white); color: var(--black); text-decoration: none; font-weight: 500; border-radius: 4px; transition: all 0.4s; font-size: 0.9rem; }
+        .vende-btn:hover { background: var(--black); color: var(--white); }
+        .vende-image { height: 320px; background: url('https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&q=80') center/cover; border-radius: 8px; box-shadow: 0 15px 40px rgba(0,0,0,0.3); }
 
         .section { padding: 6rem 5%; }
         .section-header { text-align: center; margin-bottom: 4rem; }
@@ -177,6 +186,7 @@
 
         @media (max-width: 1024px) {
             .vende-section { grid-template-columns: 1fr; text-align: center; }
+            .vende-image { height: 280px; }
             .contact-section { grid-template-columns: 1fr; }
             .contact-maps { grid-template-columns: 1fr; }
         }
@@ -216,24 +226,35 @@
         <div class="hero-bg"></div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <div class="hero-badge">Concesionaria Multimarca</div>
-            <h1 class="hero-title">Tu próximo auto te espera en <span>GoldPlan</span></h1>
-            <p class="hero-text">Somos especialistas en planes de financiación para autos <span class="gold">0KM</span> y usados seleccionados. Trabajamos con <span class="gold">Volkswagen, Fiat, Peugeot y Renault</span>, brindando planes flexibles y atención personalizada.</p>
-            <div class="hero-buttons">
-                <a href="#vehiculos" class="btn btn-primary">Ver Vehículos</a>
-                <a href="https://wa.me/5491178574747" class="btn btn-outline">Contactar</a>
+            <div class="hero-logo">
+                <div class="hero-logo-text">
+                    <div class="hero-logo-icon"><span>🛡️</span></div>
+                    Gold<span style="color: var(--gold)">Plan</span>
+                </div>
+            </div>
+            <h1 class="hero-title">Tu próximo auto te espera en GoldPlan</h1>
+            <p class="hero-description">
+                <span class="highlight"><span class="gold">GoldPlan</span> es una concesionaria multimarca especializada en planes de financiación para autos 0km y usados seleccionados.</span><br><br>
+                Ofrecemos atención personalizada, asesoramiento integral y las mejores oportunidades del mercado para que cada cliente pueda acceder a su vehículo de forma rápida y segura.<br>
+                Trabajamos con marcas líderes como <span class="gold">Volkswagen, Fiat, Peugeot y Renault</span>, brindando planes flexibles, adjudicación asegurada y entrega llave contra llave.<br><br>
+                <span class="highlight">En GoldPlan priorizamos la <strong>confianza</strong>, la <strong>transparencia</strong> y la <strong>experiencia del cliente</strong>,</span> acompañando cada paso del proceso con un equipo profesional y comprometido.<br>
+                <em style="color: var(--gold);">Contactanos para conocer todas nuestras promociones y beneficios exclusivos.</em>
+            </p>
+        </div>
+    </section>
+
+    <section class="destacados-section">
+        <div class="destacados-header">
+            <h2>Destacados</h2>
+            <div class="destacados-filters">
+                <button class="destacados-filter active" data-type="todos">Más populares</button>
+                <button class="destacados-btn" data-type="recientes">Más recientes</button>
             </div>
         </div>
-        <div class="scroll-indicator"><div class="mouse"></div>SCROLL</div>
     </section>
 
     <div class="brands-bar">
-        <div class="brands-container">
-            <span class="brand-link vw" data-filter="volkswagen">VOLKSWAGEN</span>
-            <span class="brand-link fiat" data-filter="fiat">FIAT</span>
-            <span class="brand-link peugeot" data-filter="peugeot">PEUGEOT</span>
-            <span class="brand-link renault" data-filter="renault">RENAULT</span>
-        </div>
+        <button class="mostrar-todos-btn" onclick="document.getElementById('vehiculos').scrollIntoView({behavior:'smooth'})">MOSTRAR TODOS</button>
     </div>
 
     <section class="section" id="vehiculos">
@@ -262,9 +283,9 @@
 
     <section class="vende-section" id="vende">
         <div class="vende-content">
-            <h2>¿Querés vender tu auto?</h2>
-            <p>Tasamos tu vehículo al mejor precio del mercado. Recibimos autos usados como parte de pago para tu nuevo 0KM.</p>
-            <a href="https://wa.me/5491178574747?text=Hola!%20Quiero%20vender%20mi%20auto" class="vende-btn">Tasar mi Auto</a>
+            <h2>Vendé tu auto con GoldPlan</h2>
+            <p>Lo tasamos en minutos y lo publicamos por vos. Intermediación segura y transparente.</p>
+            <a href="https://wa.me/5491178574747?text=Hola!%20Quiero%20vender%20mi%20auto" class="vende-btn">Cotizá tu usado</a>
         </div>
         <div class="vende-image"></div>
     </section>
