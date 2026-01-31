@@ -343,7 +343,7 @@
                 if (brand !== 'todos' && v.brand !== brand) continue;
                 var imgs = v.images || [];
                 var mainImg = imgs.length > 0 ? imgs[0] : (v.image || '');
-                html += '<div class="vehicle-card-admin"><div class="images-preview">' + (mainImg ? '<img src="' + mainImg + '">' : '<span class="placeholder">🚗</span>') + (imgs.length > 1 ? '<span class="images-count">📷 ' + imgs.length + '</span>' : '') + '</div><div class="info"><span class="brand">' + v.brand + '</span><h3 class="name">' + v.name + '</h3><div class="price">' + v.price + '</div><div class="actions"><button class="btn-edit" onclick="edit0km(' + v.id + ')">✏️ Editar</button></div></div></div>';
+                html += '<div class="vehicle-card-admin"><div class="images-preview">' + (mainImg ? '<img src="' + mainImg + '">' : '<span class="placeholder">🚗</span>') + (imgs.length > 1 ? '<span class="images-count">📷 ' + imgs.length + '</span>' : '') + '</div><div class="info"><span class="brand">' + v.brand + '</span><h3 class="name">' + v.name + '</h3><div class="price">' + v.price + '</div><div class="actions"><button class="btn-edit" onclick="edit0km(' + v.id + ')">✏️ Editar</button><button class="btn-delete" onclick="delete0km(' + v.id + ')">🗑️</button></div></div></div>';
             }
             document.getElementById('vehicles0kmGrid').innerHTML = html || '<p style="color:var(--gray)">No hay vehículos</p>';
         }
@@ -465,6 +465,8 @@
         }
 
         async function deleteUsado(id) { if (!confirm('¿Eliminar?')) return; try { await api('/vehicles/usados/' + id, { method: 'DELETE' }); showToast('Eliminado', 'success'); loadData(); } catch (err) { showToast('Error', 'error'); } }
+
+        async function delete0km(id) { if (!confirm('¿Eliminar este vehículo 0KM?')) return; try { await api('/vehicles/0km/' + id, { method: 'DELETE' }); showToast('Eliminado', 'success'); loadData(); } catch (err) { showToast('Error', 'error'); } }
 
         function openUserModal() { document.getElementById('modalUserTitle').textContent = 'Agregar Usuario'; document.getElementById('editUserId').value = ''; document.getElementById('editUserUsername').value = ''; document.getElementById('editUserName').value = ''; document.getElementById('editUserPassword').value = ''; document.getElementById('editUserRole').value = 'admin'; document.getElementById('modalUser').className = 'modal active'; }
 
