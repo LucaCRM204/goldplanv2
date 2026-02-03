@@ -168,7 +168,7 @@
             </section>
 
             <section class="section" id="sectionVehicles0km">
-                <div class="page-header"><h1>Vehículos 0KM</h1></div>
+                <div class="page-header"><h1>Vehículos 0KM</h1><button class="btn btn-primary" onclick="openNew0kmModal()">+ Agregar 0KM</button></div>
                 <div class="tabs" id="brandTabs0km"></div>
                 <div class="vehicles-grid" id="vehicles0kmGrid"></div>
             </section>
@@ -204,20 +204,23 @@
 
     <div class="modal" id="modal0km">
         <div class="modal-content">
-            <div class="modal-header"><h2>Editar Vehículo 0KM</h2><button class="modal-close" onclick="closeModal('modal0km')">✕</button></div>
+            <div class="modal-header"><h2 id="modal0kmTitle">Editar Vehículo 0KM</h2><button class="modal-close" onclick="closeModal('modal0km')">✕</button></div>
             <div class="modal-body">
                 <input type="hidden" id="edit0kmId">
-                <div class="form-group"><label>Vehículo</label><input type="text" id="edit0kmName" readonly style="opacity:0.7"></div>
+                <div class="form-row">
+                    <div class="form-group"><label>Marca</label><select id="edit0kmBrand"><option value="volkswagen">Volkswagen</option><option value="peugeot">Peugeot</option><option value="fiat">Fiat</option><option value="renault">Renault</option><option value="chevrolet">Chevrolet</option><option value="toyota">Toyota</option><option value="ford">Ford</option><option value="citroen">Citroën</option><option value="nissan">Nissan</option><option value="jeep">Jeep</option></select></div>
+                    <div class="form-group"><label>Modelo</label><input type="text" id="edit0kmName" placeholder="Ej: Polo Track"></div>
+                </div>
                 <div class="images-manager"><label>Imágenes (máximo 10)</label><div class="images-grid" id="images0kmGrid"></div><p class="images-hint">Hacé clic en un slot para agregar imagen. La primera será la principal.</p></div>
                 <div class="form-row">
-                    <div class="form-group"><label>Precio</label><input type="text" id="edit0kmPrice"></div>
-                    <div class="form-group"><label>Plan</label><input type="text" id="edit0kmPlan"></div>
+                    <div class="form-group"><label>Precio</label><input type="text" id="edit0kmPrice" placeholder="Ej: $25.000.000"></div>
+                    <div class="form-group"><label>Plan</label><input type="text" id="edit0kmPlan" placeholder="Ej: Plan 100%"></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label>Anticipo</label><input type="text" id="edit0kmAnticipo"></div>
-                    <div class="form-group"><label>Cuota</label><input type="text" id="edit0kmCuota"></div>
+                    <div class="form-group"><label>Anticipo</label><input type="text" id="edit0kmAnticipo" placeholder="Ej: $5.000.000"></div>
+                    <div class="form-group"><label>Cuota</label><input type="text" id="edit0kmCuota" placeholder="Ej: $150.000"></div>
                 </div>
-                <div class="form-group"><label>Descripción</label><textarea id="edit0kmDescription" maxlength="4000" oninput="updateCharCount(this,'charCount0km')"></textarea><div class="char-count"><span id="charCount0km">0</span>/2000</div></div>
+                <div class="form-group"><label>Descripción</label><textarea id="edit0kmDescription" maxlength="4000" oninput="updateCharCount(this,'charCount0km')"></textarea><div class="char-count"><span id="charCount0km">0</span>/4000</div></div>
             </div>
             <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal('modal0km')">Cancelar</button><button class="btn btn-primary" onclick="save0km()">Guardar</button></div>
         </div>
@@ -411,11 +414,33 @@
             else { currentUsadoImages.splice(index, 1); renderImagesGrid('imagesUsadoGrid', currentUsadoImages); }
         }
 
+        function openNew0kmModal() {
+            document.getElementById('modal0kmTitle').textContent = 'Agregar Vehículo 0KM';
+            document.getElementById('edit0kmId').value = '';
+            document.getElementById('edit0kmBrand').value = 'volkswagen';
+            document.getElementById('edit0kmBrand').disabled = false;
+            document.getElementById('edit0kmName').value = '';
+            document.getElementById('edit0kmName').readOnly = false;
+            document.getElementById('edit0kmPrice').value = '';
+            document.getElementById('edit0kmPlan').value = '';
+            document.getElementById('edit0kmAnticipo').value = '';
+            document.getElementById('edit0kmCuota').value = '';
+            document.getElementById('edit0kmDescription').value = '';
+            document.getElementById('charCount0km').textContent = '0';
+            current0kmImages = [];
+            renderImagesGrid('images0kmGrid', current0kmImages);
+            document.getElementById('modal0km').className = 'modal active';
+        }
+
         function edit0km(id) {
             var v = null; for (var i = 0; i < vehicles0km.length; i++) if (vehicles0km[i].id === id) { v = vehicles0km[i]; break; }
             if (!v) return;
+            document.getElementById('modal0kmTitle').textContent = 'Editar Vehículo 0KM';
             document.getElementById('edit0kmId').value = v.id;
-            document.getElementById('edit0kmName').value = v.brand.toUpperCase() + ' ' + v.name;
+            document.getElementById('edit0kmBrand').value = v.brand;
+            document.getElementById('edit0kmBrand').disabled = true;
+            document.getElementById('edit0kmName').value = v.name;
+            document.getElementById('edit0kmName').readOnly = true;
             document.getElementById('edit0kmPrice').value = v.price;
             document.getElementById('edit0kmPlan').value = v.plan;
             document.getElementById('edit0kmAnticipo').value = v.anticipo;
@@ -431,8 +456,11 @@
         async function save0km() {
             var id = document.getElementById('edit0kmId').value;
             var images = []; for (var i = 0; i < current0kmImages.length; i++) if (current0kmImages[i]) images.push(current0kmImages[i]);
+            var data = { brand: document.getElementById('edit0kmBrand').value, name: document.getElementById('edit0kmName').value, price: document.getElementById('edit0kmPrice').value, plan: document.getElementById('edit0kmPlan').value, anticipo: document.getElementById('edit0kmAnticipo').value, cuota: document.getElementById('edit0kmCuota').value, description: document.getElementById('edit0kmDescription').value, image: images[0] || '', images: images };
+            if (!data.name) { showToast('Ingresá el modelo', 'error'); return; }
             try {
-                await api('/vehicles/0km/' + id, { method: 'PUT', body: { price: document.getElementById('edit0kmPrice').value, plan: document.getElementById('edit0kmPlan').value, anticipo: document.getElementById('edit0kmAnticipo').value, cuota: document.getElementById('edit0kmCuota').value, description: document.getElementById('edit0kmDescription').value, image: images[0] || '', images: images } });
+                if (id) await api('/vehicles/0km/' + id, { method: 'PUT', body: data });
+                else await api('/vehicles/0km', { method: 'POST', body: data });
                 closeModal('modal0km'); showToast('Guardado', 'success'); loadData();
             } catch (err) { showToast('Error', 'error'); }
         }
